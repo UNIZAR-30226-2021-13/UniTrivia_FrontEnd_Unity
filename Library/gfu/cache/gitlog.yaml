@@ -1,0 +1,679 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1
+MonoBehaviour:
+  m_ObjectHideFlags: 61
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -530159753, guid: 68c7e4565cde54155bb78d8e935f1ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cacheType: 3
+  lastUpdatedAtString: 2021-04-11T10:38:50.787+02:00
+  initializedAtString: 2021-04-11T08:14:42.784+02:00
+  log:
+  - commitID: fe299a88ad9b93a3a73a8945963c7cead3179f54
+    mergeA: 
+    mergeB: 
+    authorName: VtorHdez
+    authorEmail: vtorhernandez@gmail.com
+    commitEmail: vtorhernandez@gmail.com
+    commitName: VtorHdez
+    summary: Login y registro funcional
+    description: "Pantallas de login y registro con interacci\xF3n y conexi\xF3n
+      a servidor. A\xF1adido alg\xFAn aviso de error."
+    timeString: 2021-04-11T10:38:09.000+02:00
+    commitTimeString: 2021-04-11T10:38:09.000+02:00
+    changes:
+    - path: Assets\Images\Button11.png
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Images\Button11.png
+      projectPath: Assets\Images\Button11.png
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Images\Button11.png.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Images\Button11.png.meta
+      projectPath: Assets\Images\Button11.png.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Images\SelectPanel02.png
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Images\SelectPanel02.png
+      projectPath: Assets\Images\SelectPanel02.png
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Images\SelectPanel02.png.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Images\SelectPanel02.png.meta
+      projectPath: Assets\Images\SelectPanel02.png.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Init Scene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Init Scene.unity
+      projectPath: Assets\Scenes\Init Scene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Init Scene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Init Scene.unity.meta
+      projectPath: Assets\Scenes\Init Scene.unity.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Login Scene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Login Scene.unity
+      projectPath: Assets\Scenes\Login Scene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Login Scene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Login Scene.unity.meta
+      projectPath: Assets\Scenes\Login Scene.unity.meta
+      originalPath: Assets\Scenes\MainScene.unity.meta
+      indexStatus: 6
+      workTreeStatus: 0
+    - path: Assets\Scenes\MainScene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\MainScene.unity
+      projectPath: Assets\Scenes\MainScene.unity
+      originalPath: 
+      indexStatus: 5
+      workTreeStatus: 0
+    - path: Assets\Scenes\Menu Scene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Menu Scene.unity
+      projectPath: Assets\Scenes\Menu Scene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Menu Scene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Menu Scene.unity.meta
+      projectPath: Assets\Scenes\Menu Scene.unity.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Recover Scene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Recover Scene.unity
+      projectPath: Assets\Scenes\Recover Scene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Recover Scene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Recover Scene.unity.meta
+      projectPath: Assets\Scenes\Recover Scene.unity.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Register Scene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Register Scene.unity
+      projectPath: Assets\Scenes\Register Scene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\Register Scene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\Register Scene.unity.meta
+      projectPath: Assets\Scenes\Register Scene.unity.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\RequestServer.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\RequestServer.cs
+      projectPath: Assets\Scripts\RequestServer.cs
+      originalPath: 
+      indexStatus: 3
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour.meta
+      projectPath: Assets\Scripts\Scene Behaviour.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs
+      projectPath: Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs.meta
+      projectPath: Assets\Scripts\Scene Behaviour\InitBehaviourScript.cs.meta
+      originalPath: Assets\Scripts\Test.cs.meta
+      indexStatus: 6
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs
+      projectPath: Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs.meta
+      projectPath: Assets\Scripts\Scene Behaviour\LoginBehaviourScript.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs
+      projectPath: Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs.meta
+      projectPath: Assets\Scripts\Scene Behaviour\MenuBehaviourScript.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs
+      projectPath: Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs.meta
+      projectPath: Assets\Scripts\Scene Behaviour\RecoverBehaviourScript.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs
+      projectPath: Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs.meta
+      projectPath: Assets\Scripts\Scene Behaviour\RegisterBehaviourScript.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\UserData.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\UserData.cs
+      projectPath: Assets\Scripts\UserData.cs
+      originalPath: Assets\Scripts\Test.cs
+      indexStatus: 6
+      workTreeStatus: 0
+    - path: Assets\Scripts\UserData.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\UserData.cs.meta
+      projectPath: Assets\Scripts\UserData.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+  - commitID: 2ee1b3b385dfdde4c868764893c9623256ac54e6
+    mergeA: 
+    mergeB: 
+    authorName: VtorHdez
+    authorEmail: vtorhernandez@gmail.com
+    commitEmail: vtorhernandez@gmail.com
+    commitName: VtorHdez
+    summary: Assets
+    description: Changed assets
+    timeString: 2021-03-24T06:19:58.000+01:00
+    commitTimeString: 2021-03-24T06:19:58.000+01:00
+    changes:
+    - path: Assets\Animations.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Animations.meta
+      projectPath: Assets\Animations.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Images.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Images.meta
+      projectPath: Assets\Images.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins.meta
+      projectPath: Assets\Plugins.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub.meta
+      projectPath: Assets\Plugins\GitHub.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor.meta
+      projectPath: Assets\Plugins\GitHub\Editor.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll
+      projectPath: Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\AsyncBridge.Net35.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\ExtensionLoader.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\ExtensionLoader.cs
+      projectPath: Assets\Plugins\GitHub\Editor\ExtensionLoader.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\ExtensionLoader.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\ExtensionLoader.cs.meta
+      projectPath: Assets\Plugins\GitHub\Editor\ExtensionLoader.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.45.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Api.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Api.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Logging.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Logging.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.45.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.Unity.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.mdb.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\GitHub.UnityShim.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\Mono.Posix.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\Mono.Posix.dll
+      projectPath: Assets\Plugins\GitHub\Editor\Mono.Posix.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\Mono.Posix.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\Mono.Posix.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\Mono.Posix.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\QuickGuide.pdf
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\QuickGuide.pdf
+      projectPath: Assets\Plugins\GitHub\Editor\QuickGuide.pdf
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\QuickGuide.pdf.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\QuickGuide.pdf.meta
+      projectPath: Assets\Plugins\GitHub\Editor\QuickGuide.pdf.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll
+      projectPath: Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\ReadOnlyCollectionsInterfaces.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\System.Threading.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\System.Threading.dll
+      projectPath: Assets\Plugins\GitHub\Editor\System.Threading.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\System.Threading.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\System.Threading.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\System.Threading.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs
+      projectPath: Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs.meta
+      projectPath: Assets\Plugins\GitHub\Editor\UnityAPIWrapper.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\big-logo@2x.png
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\big-logo@2x.png
+      projectPath: Assets\Plugins\GitHub\Editor\big-logo@2x.png
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\big-logo@2x.png.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\big-logo@2x.png.meta
+      projectPath: Assets\Plugins\GitHub\Editor\big-logo@2x.png.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\credits.txt
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\credits.txt
+      projectPath: Assets\Plugins\GitHub\Editor\credits.txt
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\credits.txt.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\credits.txt.meta
+      projectPath: Assets\Plugins\GitHub\Editor\credits.txt.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\eula.txt
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\eula.txt
+      projectPath: Assets\Plugins\GitHub\Editor\eula.txt
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\eula.txt.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\eula.txt.meta
+      projectPath: Assets\Plugins\GitHub\Editor\eula.txt.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\libsfw.bundle
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\libsfw.bundle
+      projectPath: Assets\Plugins\GitHub\Editor\libsfw.bundle
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\libsfw.bundle.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\libsfw.bundle.meta
+      projectPath: Assets\Plugins\GitHub\Editor\libsfw.bundle.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\libsfw.so
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\libsfw.so
+      projectPath: Assets\Plugins\GitHub\Editor\libsfw.so
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\libsfw.so.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\libsfw.so.meta
+      projectPath: Assets\Plugins\GitHub\Editor\libsfw.so.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\sfw.net.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\sfw.net.dll
+      projectPath: Assets\Plugins\GitHub\Editor\sfw.net.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\sfw.net.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\sfw.net.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\sfw.net.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x64.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x64.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x64.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll
+      projectPath: Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x64\pthreadVC2.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll
+      projectPath: Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x64\sfw_x64.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x86.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x86.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x86.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll
+      projectPath: Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x86\pthreadVC2.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll
+      projectPath: Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll.meta
+      projectPath: Assets\Plugins\GitHub\Editor\x86\sfw_x86.dll.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes.meta
+      projectPath: Assets\Scenes.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\MainScene.unity
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\MainScene.unity
+      projectPath: Assets\Scenes\MainScene.unity
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scenes\MainScene.unity.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scenes\MainScene.unity.meta
+      projectPath: Assets\Scenes\MainScene.unity.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts.meta
+      projectPath: Assets\Scripts.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\RequestServer.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\RequestServer.cs
+      projectPath: Assets\Scripts\RequestServer.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\RequestServer.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\RequestServer.cs.meta
+      projectPath: Assets\Scripts\RequestServer.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Test.cs
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Test.cs
+      projectPath: Assets\Scripts\Test.cs
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Scripts\Test.cs.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Scripts\Test.cs.meta
+      projectPath: Assets\Scripts\Test.cs.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+    - path: Assets\Sounds.meta
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\Assets\Sounds.meta
+      projectPath: Assets\Sounds.meta
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0
+  - commitID: 1ec392213eab3aab0f40e986287315f0d62828b7
+    mergeA: 
+    mergeB: 
+    authorName: VtorHdez
+    authorEmail: 58217182+VtorHdez@users.noreply.github.com
+    commitEmail: noreply@github.com
+    commitName: GitHub
+    summary: Initial commit
+    description: 
+    timeString: 2021-03-20T20:10:24.000+01:00
+    commitTimeString: 2021-03-20T20:10:24.000+01:00
+    changes:
+    - path: README.md
+      fullPath: C:\Users\vtorh\UnityWorkspace\UniTrivia\README.md
+      projectPath: README.md
+      originalPath: 
+      indexStatus: 4
+      workTreeStatus: 0

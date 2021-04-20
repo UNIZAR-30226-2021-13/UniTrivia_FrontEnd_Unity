@@ -7,41 +7,161 @@ using UnityEngine.Networking;
 
 public class RecoverBehaviourScript : MonoBehaviour
 {
-    public Button EmailButton;
-    public Button VerifyButton;
-    public Button PasswordButton;
+    public InputField UsernameInput;
+    public Button VerifyUserButton;
 
-    Button emailButton;
-    Button verifyButton;
-    Button passwordButton;
+    public GameObject SecondContainer;
+    public InputField QuestionInput;
+    public InputField AnswerInput;
+    public InputField PasswordInput;
+    public InputField RepasswordInput;
+    public Image RepasswordImage;
+    
+    public Button ConfirmButton;
+    public Button ReturnButton;
+
+    public Canvas ErrorCanvas;
+    public Text ErrorMessage;
+    public Button ErrorButton;
 
     // Start is called before the first frame update
     void Start()
     {
-        emailButton = EmailButton.GetComponent<Button>();
-        verifyButton = VerifyButton.GetComponent<Button>();
-        passwordButton = PasswordButton.GetComponent<Button>();
+        VerifyUserButton.onClick.AddListener(VerifyUserButtonOnClick);
+        ConfirmButton.onClick.AddListener(ConfirmButtonOnClick);
+        ReturnButton.onClick.AddListener(ReturnButtonOnClick);
+        ErrorButton.onClick.AddListener(ErrorButtonOnClick);
 
-        emailButton.onClick.AddListener(EmailButtonOnClick);
-        verifyButton.onClick.AddListener(VerifyButtonOnClick);
-        passwordButton.onClick.AddListener(PasswordButtonOnClick);
+        SecondContainer.SetActive(false);
 
-        verifyButton.interactable = false;
-        passwordButton.interactable = false;
+        ErrorCanvas.enabled = false;
     }
 
-    void EmailButtonOnClick()
+    void Update()
     {
-        verifyButton.interactable = true;
+        if (string.IsNullOrEmpty(UsernameInput.text))
+        {
+            VerifyUserButton.interactable = false;
+        }
+        else
+        {
+            VerifyUserButton.interactable = true;
+        }
+
+        if (!string.IsNullOrEmpty(RepasswordInput.text) & RepasswordInput.text != PasswordInput.text)
+        {
+            RepasswordImage.enabled = true;
+        }
+        else
+        {
+            RepasswordImage.enabled = false;
+        }
+
+        if (string.IsNullOrEmpty(UsernameInput.text) | string.IsNullOrEmpty(AnswerInput.text) | 
+            string.IsNullOrEmpty(PasswordInput.text) | PasswordInput.text != RepasswordInput.text)
+        {
+            ConfirmButton.interactable = false;
+        } else
+        {
+            ConfirmButton.interactable = true;
+        }
     }
 
-    void VerifyButtonOnClick()
+    void VerifyUserButtonOnClick()
     {
-        passwordButton.interactable = true;
+        StartCoroutine(RecoverQuestionRequest(UsernameInput.text));
     }
 
-    void PasswordButtonOnClick()
+    void ConfirmButtonOnClick()
     {
-        SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
+        StartCoroutine(ChangePasswordRequest(UsernameInput.text, AnswerInput.text, PasswordInput.text));
+    }
+
+    void ReturnButtonOnClick()
+    {
+        SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+    }
+
+    void ErrorButtonOnClick()
+    {
+        ErrorCanvas.enabled = false;
+    }
+
+    //Class for JSON deserializing
+    [System.Serializable]
+    public class ServerReturn
+    {
+        public int code;
+        public string message;
+
+        public static ServerReturn CreateFromJSON(string jsonString)
+        {
+            return JsonUtility.FromJson<ServerReturn>(jsonString);
+        }
+    }
+
+    private IEnumerator RecoverQuestionRequest(string username)
+    {
+        UnityWebRequest recoverQuestionRequest = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/login/recover/question");
+
+        recoverQuestionRequest.SetRequestHeader("username", username);
+        yield return recoverQuestionRequest.SendWebRequest();
+        Debug.Log("ResponseCode: " + recoverQuestionRequest.responseCode);
+
+        if (recoverQuestionRequest.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log("ERROR CONNECTION:" + recoverQuestionRequest.result);
+
+            ErrorMessage.GetComponent<Text>().text = "Error de conexión";
+            ErrorCanvas.enabled = true;
+        }
+        else if (recoverQuestionRequest.responseCode != 200)
+        {
+            Debug.Log("ERROR LOGIN:" + recoverQuestionRequest.downloadHandler.text);
+            ServerReturn result = ServerReturn.CreateFromJSON(recoverQuestionRequest.downloadHandler.text);
+
+            ErrorMessage.GetComponent<Text>().text = result.message;
+            ErrorCanvas.enabled = true;
+        }
+        else
+        {
+            Debug.Log("EXITO RECOVER:" + recoverQuestionRequest.downloadHandler.text);
+
+            QuestionInput.text = recoverQuestionRequest.downloadHandler.text;
+            UsernameInput.interactable = false;
+            SecondContainer.SetActive(true);
+        }
+    }
+
+    private IEnumerator ChangePasswordRequest(string username, string answer, string password)
+    {
+        UnityWebRequest requestChangePassword = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/login/recover/password", "");
+
+        requestChangePassword.SetRequestHeader("username", username);
+        requestChangePassword.SetRequestHeader("res", answer);
+        requestChangePassword.SetRequestHeader("newpassword", password);
+        yield return requestChangePassword.SendWebRequest();
+        Debug.Log("ResponseCode: " + requestChangePassword.responseCode);
+
+        if (requestChangePassword.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log("ERROR CONNECTION:" + requestChangePassword.result);
+
+            ErrorMessage.GetComponent<Text>().text = "Error de conexión";
+            ErrorCanvas.enabled = true;
+        }
+        else if (requestChangePassword.responseCode != 200)
+        {
+            Debug.Log("ERROR LOGIN:" + requestChangePassword.downloadHandler.text);
+            ServerReturn result = ServerReturn.CreateFromJSON(requestChangePassword.downloadHandler.text);
+
+            ErrorMessage.GetComponent<Text>().text = result.message;
+            ErrorCanvas.enabled = true;
+        }
+        else
+        {
+            Debug.Log("EXITO LOGIN:" + requestChangePassword.downloadHandler.text);
+            SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+        }
     }
 }

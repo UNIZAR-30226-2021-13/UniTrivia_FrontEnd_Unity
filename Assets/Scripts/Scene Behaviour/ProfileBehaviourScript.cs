@@ -30,6 +30,7 @@ public class ProfileBehaviourScript : MonoBehaviour
     public Text ErrorMessage;
     public Button ErrorButton;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -125,7 +126,7 @@ public class ProfileBehaviourScript : MonoBehaviour
 
     private IEnumerator ChangePasswordRequest(string username, string answer, string password)
     {
-        UnityWebRequest requestChangePassword = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/login/recover/password", "");
+        UnityWebRequest requestChangePassword = UnityWebRequest.Post("http://localhost:3000/api/login/recover/password", "");
 
         requestChangePassword.SetRequestHeader("username", username);
         requestChangePassword.SetRequestHeader("res", answer);
@@ -157,7 +158,7 @@ public class ProfileBehaviourScript : MonoBehaviour
 
     private IEnumerator DeleteProfileRequest(string token)
     {
-        UnityWebRequest requestDeleteProfile = UnityWebRequest.Delete("https://unitrivia.herokuapp.com/api/profile");
+        UnityWebRequest requestDeleteProfile = UnityWebRequest.Delete("http://localhost:3000/api/profile");
 
         requestDeleteProfile.SetRequestHeader("jwt", token);
         yield return requestDeleteProfile.SendWebRequest();

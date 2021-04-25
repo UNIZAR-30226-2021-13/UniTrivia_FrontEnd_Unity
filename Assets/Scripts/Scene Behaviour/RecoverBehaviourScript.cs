@@ -102,7 +102,7 @@ public class RecoverBehaviourScript : MonoBehaviour
 
     private IEnumerator RecoverQuestionRequest(string username)
     {
-        UnityWebRequest recoverQuestionRequest = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/login/recover/question");
+        UnityWebRequest recoverQuestionRequest = UnityWebRequest.Get("http://localhost:3000/api/login/recover/question");
 
         recoverQuestionRequest.SetRequestHeader("username", username);
         yield return recoverQuestionRequest.SendWebRequest();
@@ -135,7 +135,7 @@ public class RecoverBehaviourScript : MonoBehaviour
 
     private IEnumerator ChangePasswordRequest(string username, string answer, string password)
     {
-        UnityWebRequest requestChangePassword = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/login/recover/password", "");
+        UnityWebRequest requestChangePassword = UnityWebRequest.Post("http://localhost:3000/api/login/recover/password", "");
 
         requestChangePassword.SetRequestHeader("username", username);
         requestChangePassword.SetRequestHeader("res", answer);

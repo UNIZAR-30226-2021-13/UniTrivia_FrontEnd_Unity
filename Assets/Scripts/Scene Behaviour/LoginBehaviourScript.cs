@@ -86,7 +86,7 @@ public class LoginBehaviourScript : MonoBehaviour
     //Request to the server for Login
     private IEnumerator LoginRequest(string username, string password)
     {
-        UnityWebRequest requestLogin = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/login");
+        UnityWebRequest requestLogin = UnityWebRequest.Get("http://localhost:3000/api/login");
         requestLogin.SetRequestHeader("username", username);
         requestLogin.SetRequestHeader("password", password);
         yield return requestLogin.SendWebRequest();
@@ -122,7 +122,7 @@ public class LoginBehaviourScript : MonoBehaviour
     //Request to the server for Guest
     private IEnumerator GuestRequest()
     {
-        UnityWebRequest requestGuest = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/logAsGuest");
+        UnityWebRequest requestGuest = UnityWebRequest.Get("http://localhost:3000/api/logAsGuest");
         yield return requestGuest.SendWebRequest();
 
         Debug.Log("ResponseCode: " + requestGuest.responseCode);
@@ -171,7 +171,7 @@ public class LoginBehaviourScript : MonoBehaviour
 
     private IEnumerator ProfileRequest(string token)
     {
-        UnityWebRequest requestProfile = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/profile");
+        UnityWebRequest requestProfile = UnityWebRequest.Get("http://localhost:3000/api/profile");
         requestProfile.SetRequestHeader("jwt", token);
         yield return requestProfile.SendWebRequest();
 

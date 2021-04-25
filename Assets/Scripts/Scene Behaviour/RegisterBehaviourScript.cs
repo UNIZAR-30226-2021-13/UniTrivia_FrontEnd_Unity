@@ -87,7 +87,7 @@ public class RegisterBehaviourScript : MonoBehaviour
 
     private IEnumerator RegisterRequest(string username, string password, string email, string preg, string res)
     {
-        UnityWebRequest requestRegister = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/register", "");
+        UnityWebRequest requestRegister = UnityWebRequest.Post("http://localhost:3000/api/register", "");
 
         requestRegister.SetRequestHeader("username", username);
         requestRegister.SetRequestHeader("password", password);

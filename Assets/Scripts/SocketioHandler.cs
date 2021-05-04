@@ -4,7 +4,7 @@ using UnityEngine;
 using Socket.Quobject.SocketIoClientDotNet.Client;
 
 public static class SocketioHandler {
-    private static string op;
+    public static string op;
     private static Dictionary<string, string> args;
     private const string ENDPOINT = "http://localhost:3000/api/partida";
 

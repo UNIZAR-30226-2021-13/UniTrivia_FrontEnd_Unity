@@ -398,7 +398,7 @@ RectTransform:
   - {fileID: 710852241}
   - {fileID: 915878691}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2274,10 +2274,10 @@ MonoBehaviour:
   ProfileButton: {fileID: 415398078}
   LoginButton: {fileID: 1968961786}
   OptionsButton: {fileID: 2000432366}
-  ReconnectButton: {fileID: 0}
-  JoinGameCanvas: {fileID: 0}
-  InputIDButton: {fileID: 0}
-  IdentificadorInput: {fileID: 0}
+  ReconnectButton: {fileID: 1243073333}
+  JoinGameCanvas: {fileID: 278420117}
+  InputIDButton: {fileID: 710852242}
+  IdentificadorInput: {fileID: 915878692}
 --- !u!1 &1819497872
 GameObject:
   m_ObjectHideFlags: 0
@@ -2620,7 +2620,7 @@ RectTransform:
   - {fileID: 2000432365}
   - {fileID: 1243073332}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

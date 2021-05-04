@@ -23,7 +23,7 @@ public class MenuBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        IdentificadorInput.enabled = false;
+        JoinGameCanvas.enabled = false;
 
         esReconexion();
 

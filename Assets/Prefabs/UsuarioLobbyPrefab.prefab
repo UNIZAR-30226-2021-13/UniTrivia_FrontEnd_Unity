@@ -82,7 +82,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4591628331930436616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2876977761687774192}
   m_Layer: 0
-  m_Name: UsuarioLobby
+  m_Name: UsuarioLobbyPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

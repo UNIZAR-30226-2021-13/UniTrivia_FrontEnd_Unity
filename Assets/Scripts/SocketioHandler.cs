@@ -6,10 +6,10 @@ using Socket.Quobject.SocketIoClientDotNet.Client;
 public static class SocketioHandler {
     public static string op;
     private static Dictionary<string, string> args;
-    private const string ENDPOINT = "http://localhost:3000/api/partida";
+    private const string ENDPOINT = "http://unitrivia.herokuapp.com/api/partida";
 
     //Socketio Socket
-    private static QSocket socket = null;
+    public static QSocket socket = null;
 
     public static void Init(string operacion, Dictionary<string, string> argumentos)
     {
@@ -26,7 +26,7 @@ public static class SocketioHandler {
         }
     }
 
-    public static bool Start(Action<object> fnConexion, Dictionary<string, Action<object>> handlers)
+    public static bool Start(Action fnConexion, Action fnEnd,Dictionary<string, Action<object>> handlers)
     {
         if(handlers.Count == 0)
         {
@@ -51,9 +51,9 @@ public static class SocketioHandler {
         }
 
 
-        socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason); });
+        socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason); fnEnd(); });
         socket.On(QSocket.EVENT_RECONNECT, () => { Debug.Log("Reconnected"); });
-        socket.On(QSocket.EVENT_CONNECT, fnConexion);
+        socket.On(QSocket.EVENT_CONNECT, () => { fnConexion(); });
 
         return true;
     }

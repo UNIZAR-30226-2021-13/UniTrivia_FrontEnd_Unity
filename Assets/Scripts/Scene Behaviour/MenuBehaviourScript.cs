@@ -25,12 +25,12 @@ public class MenuBehaviourScript : MonoBehaviour
     {
         JoinGameCanvas.enabled = false;
 
-        esReconexion();
+        StartCoroutine(esReconexion());
 
         RandomGameButton.onClick.AddListener(RandomGameOnClick);
         JoinGameButton.onClick.AddListener(JoinGameOnClick);
-        CreateGameButton.onClick.AddListener(ReconnectOnClick);
-        ReconnectButton.onClick.AddListener(LoginButtonOnClick);
+        CreateGameButton.onClick.AddListener(CreateGameOnClick);
+        ReconnectButton.onClick.AddListener(ReconnectOnClick);
 
         ProfileButton.onClick.AddListener(ProfileButtonOnClick);
         LoginButton.onClick.AddListener(LoginButtonOnClick);
@@ -47,7 +47,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void Update()
     {
-        if(string.IsNullOrEmpty(IdentificadorInput.text) | IdentificadorInput.text.Length != 6 )
+        if(string.IsNullOrEmpty(IdentificadorInput.text) | IdentificadorInput.text.Length != 5 )
         {
             InputIDButton.interactable = false;
         }
@@ -59,11 +59,12 @@ public class MenuBehaviourScript : MonoBehaviour
 
     private IEnumerator esReconexion()
     {
-        UnityWebRequest requestPartida = UnityWebRequest.Get("http://localhost:3000/api/partida/reconexion");
+        UnityWebRequest requestPartida = UnityWebRequest.Get("http://unitrivia.herokuapp.com/api/partida/reconexion");
         requestPartida.SetRequestHeader("jwt", PlayerPrefs.GetString("Token"));
         yield return requestPartida.SendWebRequest();
 
-        bool reconexion = requestPartida.downloadHandler.text == "";
+        bool reconexion = requestPartida.downloadHandler.text != "";
+
 
         ReconnectButton.gameObject.SetActive(reconexion);
         RandomGameButton.gameObject.SetActive(!reconexion);
@@ -74,7 +75,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void JoinGameOnClick()
     {
-        IdentificadorInput.enabled = false;
+        JoinGameCanvas.enabled = true;
         InputIDButton.onClick.AddListener(InputIDButtonOnClick);
     }
 
@@ -82,7 +83,7 @@ public class MenuBehaviourScript : MonoBehaviour
     {
         Dictionary<string, string> args = new Dictionary<string, string>();
         SocketioHandler.Init("buscarPartida", args);
-        SceneManager.LoadScene("Waiting Scene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Lobby Scene", LoadSceneMode.Single);
     }
 
     void CreateGameOnClick()
@@ -90,14 +91,14 @@ public class MenuBehaviourScript : MonoBehaviour
         Dictionary<string, string> args = new Dictionary<string, string>();
         args.Add("priv", "true");
         SocketioHandler.Init("crearSala", args);
-        SceneManager.LoadScene("Waiting Scene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Lobby Scene", LoadSceneMode.Single);
     }
 
     void ReconnectOnClick()
     {
         Dictionary<string, string> args = new Dictionary<string, string>();
         SocketioHandler.Init("reconexion", args);
-        SceneManager.LoadScene("Waiting Scene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Game Scene", LoadSceneMode.Single);
     }
 
     void ProfileButtonOnClick()
@@ -119,9 +120,9 @@ public class MenuBehaviourScript : MonoBehaviour
     {
 
         Dictionary<string, string> args = new Dictionary<string, string>();
-        args.Add("sala", "");
+        args.Add("sala", IdentificadorInput.text);
         SocketioHandler.Init("unirseSala", args);
-        SceneManager.LoadScene("Waiting Scene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Lobby Scene", LoadSceneMode.Single);
 
     }
 }

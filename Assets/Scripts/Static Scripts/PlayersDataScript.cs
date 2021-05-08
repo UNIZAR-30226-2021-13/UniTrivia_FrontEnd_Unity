@@ -10,7 +10,7 @@ public class PlayersDataScript
         public readonly string banner;
         public readonly string avatar;
         public readonly string ficha;
-        public string[] quesitos { get; set; }
+        public List<string> quesitos;
         public int posicion { get; set; }
 
         public Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
@@ -20,7 +20,7 @@ public class PlayersDataScript
             this.avatar = avatar;
             this.ficha = ficha;
             this.posicion = posicion;
-            this.quesitos = quesitos;
+            this.quesitos = new List<string>(quesitos);
         }
     }
 

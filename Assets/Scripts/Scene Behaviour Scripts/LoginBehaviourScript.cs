@@ -196,6 +196,7 @@ public class LoginBehaviourScript : MonoBehaviour
             UserDataScript.setInfo("ficha", result.fich);
             UserDataScript.setCoins(result.cns);
             UserDataScript.setStats(result.nj, result.ng);
+            UserDataScript.setItems(result.comprados);
 
             SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
         }

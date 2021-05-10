@@ -20,6 +20,7 @@ public class ProfileBehaviourScript : MonoBehaviour
     public Image RepasswordImage;
     public Button ChangePasswordButton;
     public Button DeleteProfileButton;
+    public Button ShopButton;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class ProfileBehaviourScript : MonoBehaviour
         ChangePasswordButton.onClick.AddListener(ChangePasswordButtonOnClick);
         DeleteProfileButton.onClick.AddListener(DeleteProfileButtonOnClick);
         ReturnButton.onClick.AddListener(ReturnButtonOnClick);
+        ShopButton.onClick.AddListener(ShopButtonOnClick);
 
         InfoText.text = "Usuario: " + UserDataScript.getInfo("username") + "\n"
             + "Email: " + UserDataScript.getInfo("email") + "\n\n"
@@ -91,6 +93,11 @@ public class ProfileBehaviourScript : MonoBehaviour
     {
         //SceneManager.UnloadSceneAsync("Profile Scene");
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
+    }
+
+    void ShopButtonOnClick()
+    {
+        SceneManager.LoadScene("Shop Scene", LoadSceneMode.Additive);
     }
 
     //Class for JSON deserializing

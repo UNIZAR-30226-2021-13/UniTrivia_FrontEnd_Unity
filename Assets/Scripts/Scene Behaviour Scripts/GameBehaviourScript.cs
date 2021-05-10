@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Socket.Newtonsoft.Json.Linq;
 
 public class GameBehaviourScript : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class GameBehaviourScript : MonoBehaviour
      */
     private readonly string[] categories = { "Cultura General", "Deportes", "Geografia", "Ciencias", "Entretenimiento", "Historia" };
 
-
+    /*
     // Start is called before the first frame update
     void Start()
     {
@@ -275,4 +276,5 @@ public class GameBehaviourScript : MonoBehaviour
         //TODO implementar
         yield return null;
     }
+    */
 }

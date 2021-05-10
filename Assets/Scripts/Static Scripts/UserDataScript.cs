@@ -7,6 +7,7 @@ static class UserDataScript
     private static int coins = 0;
     private static int played = 0;
     private static int wins = 0;
+    private static string[] items;
 
     private static Dictionary<string, string> userInfo = new Dictionary<string, string>();
 
@@ -64,6 +65,27 @@ static class UserDataScript
     public static int getWins()
     {
         return wins;
+    }
+
+    public static void setItems(string[] itms)
+    {
+        items = itms;
+    }
+
+    public static bool isItem(string name)
+    {
+        if(items.Length > 0)
+        {
+            foreach (string s in items)
+            {
+                if (s.Equals(name))
+                {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 
     public static void deleteInfo()

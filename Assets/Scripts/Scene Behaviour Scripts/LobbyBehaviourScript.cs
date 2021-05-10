@@ -21,7 +21,6 @@ public class LobbyBehaviourScript : MonoBehaviour
     public Button ErrorButton;
 
     private int jugadores = 1;
-    private string yo = "";
 
     public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
 
@@ -38,21 +37,29 @@ public class LobbyBehaviourScript : MonoBehaviour
         }
     }
 
+    void OnApplicationQuit()
+    {
+        SocketioHandler.End();
+    }
+
+
 
     // Start is called before the first frame update
     void Start(){
-        yo = PlayerPrefs.GetString("Username");
         ErrorCanvas.enabled = false;
 
         setLider(true);
 
-        StartCoroutine(nuevoUsuario(yo));
+        if(SocketioHandler.op.Equals("crearSala"))
+        {
+            StartCoroutine(setPropio());
+        }
 
         Dictionary<string, Action<object>> handlers = new Dictionary<string, Action<object>>();
         handlers.Add("nuevoJugador", (user) =>
         {
-            string nombre = (string)user;
-            LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(nuevoUsuario(nombre)))    ;
+            JObject usuario = (JObject)user;
+            LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(nuevoUsuario(usuario)))    ;
         });
 
         handlers.Add("cargarJugadores", (usuarios) => {
@@ -98,7 +105,7 @@ public class LobbyBehaviourScript : MonoBehaviour
         Debug.Log(nuevo);
         Debug.Log(antiguo);
         
-        if (nuevoString.Equals(yo))
+        if (nuevoString.Equals(UserDataScript.getInfo("username")))
         {
             setLider(true);
         }
@@ -109,6 +116,7 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     IEnumerator salidaUsuario(string nombre)
     {
+        PlayersDataScript.eliminarJugador(nombre);
         jugadores--;
         GameObject child = Usuarios.transform.Find(nombre).gameObject;
         Destroy(child);
@@ -117,8 +125,26 @@ public class LobbyBehaviourScript : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator nuevoUsuario(string nombre)
+    IEnumerator nuevoUsuario(JObject usuario)
     {
+        JValue tmp = (JValue)usuario.Property("jugador").Value;
+        string nombre = (string)tmp.Value;
+
+        tmp = (JValue)usuario.Property("imgs").Value;
+        JObject images = (JObject)tmp.Value;
+
+        tmp = (JValue)usuario.Property("avatar").Value;
+        string avatar = (string)tmp.Value;
+        tmp = (JValue)usuario.Property("banner").Value;
+        string banner = (string)tmp.Value;
+        tmp = (JValue)usuario.Property("ficha").Value;
+        string ficha = (string)tmp.Value;
+
+        //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
+        PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, 777, new string[]{ });
+        PlayersDataScript.nuevoJugador(jugador);
+
+
         GameObject usuarioGO = new GameObject(nombre);
         usuarioGO.transform.SetParent(Usuarios.transform);
 
@@ -157,12 +183,9 @@ public class LobbyBehaviourScript : MonoBehaviour
             {
                 JValue jugador = (JValue)j;
                 Debug.Log("klk manin 1");
-                string userDisplay = (string)jugador.Value;
+                JObject userDisplay = (JObject)jugador.Value;
                 Debug.Log("Añadiendo: " + userDisplay);
-                if (!yo.Equals(userDisplay))
-                {
-                    StartCoroutine(nuevoUsuario(userDisplay));
-                }
+                StartCoroutine(nuevoUsuario(userDisplay));
                 Debug.Log("Añadido");
             }
         }
@@ -174,6 +197,35 @@ public class LobbyBehaviourScript : MonoBehaviour
     {
 
         idSala.text = id;
+        yield return null;
+    }
+
+    IEnumerator setPropio()
+    {
+        //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
+        string nombre = UserDataScript.getInfo("username");
+        string banner = UserDataScript.getInfo("banner");
+        string avatar = UserDataScript.getInfo("avatar");
+        string ficha  = UserDataScript.getInfo("token");
+
+        PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, 777, new string[] { });
+        PlayersDataScript.nuevoJugador(jugador);
+
+
+        GameObject usuarioGO = new GameObject(nombre);
+        usuarioGO.transform.SetParent(Usuarios.transform);
+
+        RectTransform usuarioRT = usuarioGO.AddComponent<RectTransform>();
+        usuarioRT.sizeDelta = new Vector2(450, 51);
+        usuarioRT.localScale = new Vector3(1, 1, 1);
+
+        Text usuarioText = usuarioGO.AddComponent<Text>();
+        usuarioText.text = nombre;
+        usuarioText.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+        usuarioText.alignment = TextAnchor.MiddleLeft;
+        usuarioText.fontSize = 36;
+        usuarioText.fontStyle = FontStyle.Bold;
+
         yield return null;
     }
 

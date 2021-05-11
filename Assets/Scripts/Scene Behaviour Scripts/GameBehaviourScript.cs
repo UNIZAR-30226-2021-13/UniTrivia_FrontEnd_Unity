@@ -24,7 +24,6 @@ public class GameBehaviourScript : MonoBehaviour
     public Button send;
     public InputField msg;
     public Text chatLog;
-    public Image aviso;
 
 
     private GameObject[] Players;
@@ -57,7 +56,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         //Configurar chat
         ChatPannel.enabled = false;
-        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
+        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; });
         msg.onValueChange.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
         send.onClick.AddListener(SendMsg);
     }
@@ -305,7 +304,6 @@ public class GameBehaviourScript : MonoBehaviour
         string msg = (string)msgJV.Value;
 
         chatLog.text = chatLog.text + user + ": " + msg + "\n";
-        aviso.enabled = ChatPannel.enabled;
 
         yield return null;
     }

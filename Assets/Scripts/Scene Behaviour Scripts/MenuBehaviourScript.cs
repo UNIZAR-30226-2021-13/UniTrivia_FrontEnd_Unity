@@ -36,6 +36,10 @@ public class MenuBehaviourScript : MonoBehaviour
 
         ReconnectButton.gameObject.SetActive(false);
 
+        IdentificadorInput.onValueChange.AddListener((id)=> { 
+            InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
+        });
+
         if (PlayerPrefs.GetString("Username").Equals("Invitado"))
         {
             ProfileButton.gameObject.SetActive(false);
@@ -43,18 +47,6 @@ public class MenuBehaviourScript : MonoBehaviour
         {
             LoginButton.gameObject.SetActive(false);
             StartCoroutine(checkUserReconnection());
-        }
-    }
-
-    void Update()
-    {
-        if(string.IsNullOrEmpty(IdentificadorInput.text) | IdentificadorInput.text.Length != 5 )
-        {
-            InputIDButton.interactable = false;
-        }
-        else
-        {
-            InputIDButton.interactable = true;
         }
     }
 

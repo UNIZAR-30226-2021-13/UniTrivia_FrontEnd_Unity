@@ -18,6 +18,14 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject Player6;
     public GameObject PlayersGO;
 
+    //CHAT
+    public Canvas ChatPannel;
+    public Button chatButton;
+    public Button send;
+    public InputField msg;
+    public Text chatLog;
+
+
     private GameObject[] Players;
 
     private Button[] boardFields;
@@ -34,7 +42,7 @@ public class GameBehaviourScript : MonoBehaviour
      */
     private readonly string[] categories = { "Cultura General", "Deportes", "Geografia", "Ciencias", "Entretenimiento", "Historia" };
 
-    /*
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +53,12 @@ public class GameBehaviourScript : MonoBehaviour
         }
         setConnectionHandlers();
         setPlayersAtStart();
+
+        //Configurar chat
+        ChatPannel.enabled = false;
+        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; });
+        msg.onValueChange.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
+        send.onClick.AddListener(SendMsg);
     }
 
 
@@ -108,7 +122,7 @@ public class GameBehaviourScript : MonoBehaviour
     private void startReconnection()
     {
         Dictionary<string, Action<object>> handlers = new Dictionary<string, Action<object>>();
-        handlers.Add("estadoPartida", (data) => { GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(estadoPartida((JObject)user))); });
+        handlers.Add("estadoPartida", (data) => { GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(estadoPartida((JObject)data))); });
 
         SocketioHandler.Start(() => { return; }, () =>
         {
@@ -196,7 +210,7 @@ public class GameBehaviourScript : MonoBehaviour
             string ficha = (string)tmp.Value;
 
             JArray quesitosJA = (JArray)jugadorJO.Property("quesitos").Value;
-            string[] quesitos = new string[quesitosJA.Count] { };
+            List<string> quesitos = new List<string>(quesitosJA.Count);
             int i = 0;
             foreach(JToken q in quesitosJA)
             {
@@ -204,7 +218,7 @@ public class GameBehaviourScript : MonoBehaviour
             }
 
             //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
-            PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, posicion, quesitos);
+            PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, posicion, quesitos.ToArray());
             PlayersDataScript.nuevoJugador(jugador);
         }
 
@@ -230,7 +244,7 @@ public class GameBehaviourScript : MonoBehaviour
         //Actualizar quesito
         PlayersDataScript.jugadores[PlayersDataScript.index(user)].quesitos.Add(ques);
         int idx = Array.FindIndex(categories, (c) => { return c.Equals(ques); });
-        PlayersGO.Find(user).GetComponentsInChildren<Image>(true)[3 + idx].gameObject.SetActive(true);
+        PlayersGO.transform.Find(user).GetComponentsInChildren<Image>(true)[3 + idx].gameObject.SetActive(true);
 
         //TODO mover ficha del jugador
 
@@ -238,18 +252,6 @@ public class GameBehaviourScript : MonoBehaviour
     }
     IEnumerator findDelJuego(string jugador)
     {
-        //TODO implementar
-        yield return null;
-    }
-    IEnumerator chat(JObject data)
-    {
-        JValue userJV = (JValue)data.Property("usuario").Value;
-        JValue msgJV = (JValue)data.Property("msg").Value;
-
-        string user = (string)userJV.Value;
-        string msg = (string)msgJV.Value;
-
-
         //TODO implementar
         yield return null;
     }
@@ -276,5 +278,33 @@ public class GameBehaviourScript : MonoBehaviour
         //TODO implementar
         yield return null;
     }
-    */
+
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //
+    //                              GESTION DEL CHAT
+    //
+    ///////////////////////////////////////////////////////////////////////////////
+
+    //public InputField msg;
+    //public Text chatLog;
+    //Cuando se pulsa el botón para enviar un mensaje
+    void SendMsg()
+    {
+        SocketioHandler.socket.Emit("mensaje",msg.text);
+    }
+
+    //Cuando llega un mensaje por el socket
+    IEnumerator chat(JObject data)
+    {
+        JValue userJV = (JValue)data.Property("usuario").Value;
+        JValue msgJV = (JValue)data.Property("msg").Value;
+
+        string user = (string)userJV.Value;
+        string msg = (string)msgJV.Value;
+
+        chatLog.text = chatLog.text + user + ": " + msg + "\n";
+
+        yield return null;
+    }
 }

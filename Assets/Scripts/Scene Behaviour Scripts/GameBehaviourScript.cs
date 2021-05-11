@@ -9,7 +9,6 @@ using Socket.Newtonsoft.Json.Linq;
 public class GameBehaviourScript : MonoBehaviour
 {
     public GameObject Board;
-    public Button Dice;
     public GameObject Player1;
     public GameObject Player2;
     public GameObject Player3;
@@ -17,6 +16,11 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject Player5;
     public GameObject Player6;
     public GameObject PlayersGO;
+
+    //DADO
+    public Canvas DiceGO;
+    public Animation DiceAnimation;
+    public Button Dice;
 
     //CHAT
     public Canvas ChatPannel;
@@ -105,11 +109,6 @@ public class GameBehaviourScript : MonoBehaviour
     {
         //Aqui habra que hacer waitTurn o similar cuando sea multi
 
-    }
-
-    private void useDice()
-    {
-        diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
     }
 
     private void newQuestion(string category)
@@ -227,11 +226,6 @@ public class GameBehaviourScript : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator turno(string jugador)
-    {
-        //TODO implementar
-        yield return null;
-    }
     IEnumerator jugada(JObject data)
     {
         JValue userJV = (JValue)data.Property("user").Value;
@@ -283,12 +277,76 @@ public class GameBehaviourScript : MonoBehaviour
 
     ///////////////////////////////////////////////////////////////////////////////
     //
+    //                             TURNO DEL JUGADOR
+    //
+    ///////////////////////////////////////////////////////////////////////////////
+    
+    // Gestión del evento de turno del socket
+    IEnumerator turno(string jugador)
+    {
+        //TODO implementar
+        if (jugador.Equals(UserDataScript.getInfo("username")))
+        {
+            DiceGO.enabled = true;
+            Dice.interactable = true;
+            DiceAnimation.Play(); //Lanzar animación
+        }
+
+        yield return null;
+    }
+
+    // Función de pulsar el dado
+    private void useDice()
+    {
+        Dice.interactable = false;
+        diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
+        SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => { StartCoroutine(posiblesJugadasCallback((JObject)jugadas)); }, diceNumber);
+    }
+
+    IEnumerator posiblesJugadasCallback(JObject jugadas)
+    {
+        JValue resJV = (JValue)jugadas.Property("res").Value;
+        string res = (string)resJV.Value;
+
+        if (res.Equals("ok"))
+        {
+            JArray movimientos = (JArray)jugadas.Property("info").Value;
+            foreach(JToken j in movimientos)
+            {
+                //TODO Sacar la información de cada posible casilla
+                //
+                // j = {
+                //      casilla: {
+                //          num: <integer>,
+                //          categoria: <string>,
+                //          tipo: <dado>
+                //      },
+                //      pregunta: {
+                //          categoria: <string>,
+                //          pregunta: <string>,
+                //          resp_c: <string>,
+                //          resp_inc: <Array<string>>,
+                //          _id: <string>,
+                //      }
+                //  }
+            }
+        }
+        else
+        {
+            //TODO GESITONAR EL ERROR
+            JValue infoJV = (JValue)jugadas.Property("info").Value;
+            string info = (string)infoJV.Value;
+        }
+
+        yield return null;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //
     //                              GESTION DEL CHAT
     //
     ///////////////////////////////////////////////////////////////////////////////
 
-    //public InputField msg;
-    //public Text chatLog;
     //Cuando se pulsa el botón para enviar un mensaje
     void SendMsg()
     {

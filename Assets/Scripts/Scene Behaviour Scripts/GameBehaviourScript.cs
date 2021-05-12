@@ -111,14 +111,6 @@ public class GameBehaviourScript : MonoBehaviour
 
     }
 
-    private void newQuestion(string category)
-    {
-        //Solicitar nueva pregunta y gestionarlo
-        QuestionDataScript.setQuestion("¿1+1?","1","2","3","4",2);
-
-        SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
-    }
-
     private void startReconnection()
     {
         Dictionary<string, Action<object>> handlers = new Dictionary<string, Action<object>>();
@@ -300,7 +292,9 @@ public class GameBehaviourScript : MonoBehaviour
     {
         Dice.interactable = false;
         diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
-        SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => { StartCoroutine(posiblesJugadasCallback((JObject)jugadas)); }, diceNumber);
+        SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => {
+            GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(posiblesJugadasCallback((JObject)jugadas))); 
+        }, diceNumber);
     }
 
     IEnumerator posiblesJugadasCallback(JObject jugadas)
@@ -319,7 +313,7 @@ public class GameBehaviourScript : MonoBehaviour
                 //      casilla: {
                 //          num: <integer>,
                 //          categoria: <string>,
-                //          tipo: <dado>
+                //          tipo: <string>
                 //      },
                 //      pregunta: {
                 //          categoria: <string>,
@@ -329,6 +323,33 @@ public class GameBehaviourScript : MonoBehaviour
                 //          _id: <string>,
                 //      }
                 //  }
+                JObject tmp = (JObject)j;
+                JObject casillaJO = (JObject)tmp.Property("casilla").Value;
+                JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
+
+                int casilla = (int)((JValue)casillaJO.Property("num").Value).Value;
+                string tipo = (string)((JValue)casillaJO.Property("tipo").Value).Value;
+                if (tipo.Equals("dado"))
+                {
+                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=>turno(UserDataScript.getInfo("username")));
+                }
+                else
+                {
+                    string categoria = (string)((JValue)casillaJO.Property("categoria").Value).Value;
+                    string question = (string)((JValue)casillaJO.Property("question").Value).Value;
+                    string resp_c = (string)((JValue)casillaJO.Property("resp_c").Value).Value;
+                    JArray resp_incJA = (JArray)casillaJO.Property("resp_inc").Value;
+                    List<string> resp_inc = new List<string>();
+                    foreach(JToken r in resp_incJA)
+                    {
+                        resp_inc.Add((string)((JValue)r).Value);
+                    }
+
+                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=>newQuestion(tipo.Equals("quesito"), categoria, question, resp_c, resp_inc));
+                }
+
+                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
+                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Image>().sprite = Resources.Load<Sprite>("dice_" + diceNumber);
             }
         }
         else
@@ -339,6 +360,15 @@ public class GameBehaviourScript : MonoBehaviour
         }
 
         yield return null;
+    }
+
+
+    private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects)
+    {
+        //Solicitar nueva pregunta y gestionarlo
+        QuestionDataScript.setQuestion("¿1+1?", "1", "2", "3", "4", 2);
+
+        SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
 
     ///////////////////////////////////////////////////////////////////////////////

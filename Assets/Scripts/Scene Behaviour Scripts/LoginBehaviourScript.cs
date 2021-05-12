@@ -145,7 +145,7 @@ public class LoginBehaviourScript : MonoBehaviour
         public int ng;
         public string fich;
         public string bnr;
-        public string[] comprados;
+        public string[] rfs;
         public string avtr;
         public int nj;
         public string mail;
@@ -196,7 +196,7 @@ public class LoginBehaviourScript : MonoBehaviour
             UserDataScript.setInfo("ficha", result.fich);
             UserDataScript.setCoins(result.cns);
             UserDataScript.setStats(result.nj, result.ng);
-            UserDataScript.setItems(result.comprados);
+            UserDataScript.setItems(result.rfs);
 
             SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
         }

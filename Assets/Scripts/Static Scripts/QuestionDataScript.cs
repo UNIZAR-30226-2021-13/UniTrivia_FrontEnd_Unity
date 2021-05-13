@@ -12,7 +12,7 @@ public class QuestionDataScript : MonoBehaviour
     private static string category = "";
     private static int position = 0;
 
-    public static void setQuestion(string q, List<string> Answers, int aCorrect, bool Quesit, string Category, int Position)
+    public static void setQuestion(string q, List<string> Answers, int aCorrect, bool Quesito, string Category, int Position)
     {
         question = q;
         answers = Answers.ToArray();

@@ -387,7 +387,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
-    private static void SendJugada(int casilla, string quesito, bool finTurno)
+    public static void SendJugada(int casilla, string quesito, bool finTurno)
     {
         SocketioHandler.socket.Emit("actualizarJugada",casilla, quesito,finTurno);
     }

@@ -331,7 +331,11 @@ public class GameBehaviourScript : MonoBehaviour
                 string tipo = (string)((JValue)casillaJO.Property("tipo").Value).Value;
                 if (tipo.Equals("dado"))
                 {
-                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=>turno(UserDataScript.getInfo("username")));
+                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
+                        hideBoardButtons();
+                        SendJugada(casilla, "", false);
+                        turno(UserDataScript.getInfo("username"));
+                    });
                 }
                 else
                 {
@@ -345,11 +349,14 @@ public class GameBehaviourScript : MonoBehaviour
                         resp_inc.Add((string)((JValue)r).Value);
                     }
 
-                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=>newQuestion(tipo.Equals("quesito"), categoria, question, resp_c, resp_inc));
+                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
+                        hideBoardButtons();
+                        newQuestion(tipo.Equals("quesito"), categoria, question, resp_c, resp_inc, casilla);
+                    });
                 }
 
                 Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
-                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Image>().sprite = Resources.Load<Sprite>("dice_" + diceNumber);
+                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Image>().sprite = Resources.Load<Sprite>("Dice/dado_" + diceNumber);
             }
         }
         else
@@ -361,14 +368,28 @@ public class GameBehaviourScript : MonoBehaviour
 
         yield return null;
     }
-
-
-    private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects)
+    private void hideBoardButtons()
     {
-        //Solicitar nueva pregunta y gestionarlo
-        QuestionDataScript.setQuestion("¿1+1?", "1", "2", "3", "4", 2);
+        foreach(Transform child in Board.transform) //Magically Unity provides the children of Board only in a foreach of its transform
+        {
+            child.GetComponent<Button>().interactable = false;
+            child.GetComponent<Image>().sprite = Resources.Load<Sprite>("void");
+        }
+    }
+    private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects, int position)
+    {
+        //Lo mezcla, genera la posicion e inserta la respuesta correcta ahí
+        Shuffle(ref incorrects);
+        int idCorrect = UnityEngine.Random.Range(0, incorrects.Count + 1);
+        incorrects.Insert(idCorrect, correct);
+
+        QuestionDataScript.setQuestion(question,incorrects, idCorrect, quesito, category, position);
 
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
+    }
+    private static void SendJugada(int casilla, string quesito, bool finTurno)
+    {
+        SocketioHandler.socket.Emit("actualizarJugada",casilla, quesito,finTurno);
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -397,4 +418,25 @@ public class GameBehaviourScript : MonoBehaviour
 
         yield return null;
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
+    //
+    //                              UTILS
+    //
+    ///////////////////////////////////////////////////////////////////////////////
+    
+    //Source https://github.com/pdo400/smooth.foundations/blob/132960d2238f08b333035d9374569cbcc9b1b728/Assets/Smooth/Foundations/Collections/IListExtensions.cs#L26
+    public static void Shuffle(ref List<string> ts)
+    {
+        var count = ts.Count;
+        var last = count - 1;
+        for (var i = 0; i < last; ++i)
+        {
+            var r = UnityEngine.Random.Range(i, count);
+            var tmp = ts[i];
+            ts[i] = ts[r];
+            ts[r] = tmp;
+        }
+    }
 }
+

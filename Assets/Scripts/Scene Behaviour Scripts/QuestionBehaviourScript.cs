@@ -38,21 +38,57 @@ public class QuestionBehaviourScript : MonoBehaviour
 
     private void AnswerOneButtonOnClick()
     {
+        if(QuestionDataScript.getCorrectAnswer() == 1)
+        {
+            string quesito = QuestionDataScript.getCategory();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito()? quesito : "", !QuestionDataScript.getQuesito());
+        }
+        else
+        {
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(),"",false);
+        }
         SceneManager.UnloadSceneAsync("Question Scene");
     }
 
     private void AnswerTwoButtonOnClick()
     {
+        if (QuestionDataScript.getCorrectAnswer() == 2)
+        {
+            string quesito = QuestionDataScript.getCategory();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+        }
+        else
+        {
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+        }
         SceneManager.UnloadSceneAsync("Question Scene");
     }
 
     private void AnswerThreeButtonOnClick()
     {
+        if (QuestionDataScript.getCorrectAnswer() == 3)
+        {
+            string quesito = QuestionDataScript.getCategory();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+        }
+        else
+        {
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+        }
         SceneManager.UnloadSceneAsync("Question Scene");
     }
 
     private void AnswerFourButtonOnClick()
     {
+        if (QuestionDataScript.getCorrectAnswer() == 4)
+        {
+            string quesito = QuestionDataScript.getCategory();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+        }
+        else
+        {
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+        }
         SceneManager.UnloadSceneAsync("Question Scene");
     }
 }

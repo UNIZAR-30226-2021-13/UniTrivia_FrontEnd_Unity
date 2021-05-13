@@ -17,6 +17,14 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject Player6;
     public GameObject PlayersGO;
 
+    public GameObject TokensGO;
+    public GameObject Token_Player1;
+    public GameObject Token_Player2;
+    public GameObject Token_Player3;
+    public GameObject Token_Player4;
+    public GameObject Token_Player5;
+    public GameObject Token_Player6;
+
     //DADO
     public Canvas DiceGO;
     public Animation DiceAnimation;
@@ -32,6 +40,7 @@ public class GameBehaviourScript : MonoBehaviour
 
 
     private GameObject[] Players;
+    private GameObject[] Tokens;
 
     private Button[] boardFields;
     private int diceNumber;
@@ -52,6 +61,7 @@ public class GameBehaviourScript : MonoBehaviour
     void Start()
     {
         Players = new GameObject[] { Player1, Player2, Player3, Player4, Player5, Player6 };
+        Tokens = new GameObject[] { Token_Player1, Token_Player2, Token_Player3, Token_Player4, Token_Player5, Token_Player6 };
         if (SocketioHandler.op.Equals("reconexion"))
         {
             startReconnection();
@@ -88,27 +98,31 @@ public class GameBehaviourScript : MonoBehaviour
         for(int i = 0; i < 6; i++)
         {
             Players[i].SetActive(i < PlayersDataScript.jugadores.Count);
-            if(i < PlayersDataScript.jugadores.Count)
+            Tokens[i].SetActive(i < PlayersDataScript.jugadores.Count);
+            if (i < PlayersDataScript.jugadores.Count)
             {
                 Players[i].name = PlayersDataScript.jugadores[i].nombre;
                 Players[i].GetComponentInChildren<Text>().text = PlayersDataScript.jugadores[i].nombre;
                 Players[i].GetComponentsInChildren<Image>(true)[0].sprite = Resources.Load<Sprite>("Avatar/" + PlayersDataScript.jugadores[i].avatar);
                 Players[i].GetComponentsInChildren<Image>(true)[1].sprite = Resources.Load<Sprite>("Token/" + PlayersDataScript.jugadores[i].ficha);
-                foreach(string img in PlayersDataScript.jugadores[i].quesitos)
+                Tokens[i].name = PlayersDataScript.jugadores[i].nombre;
+                Tokens[i].GetComponent<Image>().sprite = Resources.Load<Sprite>("Token/" + PlayersDataScript.jugadores[i].ficha);
+                foreach (string img in PlayersDataScript.jugadores[i].quesitos)
                 {
                     int idx = Array.FindIndex(categories, (c) => { return c.Equals(img); });
                     Players[i].GetComponentsInChildren<Image>(true)[3+idx].gameObject.SetActive(true);
                 }
-                //TODO Posicionar la casilla
+                setTokenInPosition(Tokens[i], PlayersDataScript.jugadores[i].posicion);
             }
         }
 
     }
 
-    private void playTurn(int player)
+    private void setTokenInPosition(GameObject token, int position)
     {
-        //Aqui habra que hacer waitTurn o similar cuando sea multi
+        //¿TODO ANIMATION y MULTIPOSICION?
 
+        token.transform.position = Board.transform.Find("BoardButton (" + position + ")").transform.position;
     }
 
     private void startReconnection()
@@ -225,7 +239,7 @@ public class GameBehaviourScript : MonoBehaviour
         JValue quesJV = (JValue)data.Property("ques").Value;
 
         string user = (string)userJV.Value;
-        string casilla = (string)casillaJV.Value;
+        int casilla = (int)casillaJV.Value;
         string ques = (string)quesJV.Value;
 
         //Actualizar quesito
@@ -233,7 +247,9 @@ public class GameBehaviourScript : MonoBehaviour
         int idx = Array.FindIndex(categories, (c) => { return c.Equals(ques); });
         PlayersGO.transform.Find(user).GetComponentsInChildren<Image>(true)[3 + idx].gameObject.SetActive(true);
 
-        //TODO mover ficha del jugador
+        //Mover ficha del jugador
+        PlayersDataScript.jugadores[PlayersDataScript.index(user)].posicion = casilla;
+        setTokenInPosition(TokensGO.transform.Find(user).gameObject, casilla);
 
         yield return null;
     }
@@ -276,12 +292,15 @@ public class GameBehaviourScript : MonoBehaviour
     // Gestión del evento de turno del socket
     IEnumerator turno(string jugador)
     {
-        //TODO implementar
         if (jugador.Equals(UserDataScript.getInfo("username")))
         {
             DiceGO.enabled = true;
             Dice.interactable = true;
             DiceAnimation.Play(); //Lanzar animación
+        }
+        else
+        {
+            //¿TODO - MARCAR DE QUIÉN ES EL TURNO?
         }
 
         yield return null;
@@ -307,8 +326,6 @@ public class GameBehaviourScript : MonoBehaviour
             JArray movimientos = (JArray)jugadas.Property("info").Value;
             foreach(JToken j in movimientos)
             {
-                //TODO Sacar la información de cada posible casilla
-                //
                 // j = {
                 //      casilla: {
                 //          num: <integer>,

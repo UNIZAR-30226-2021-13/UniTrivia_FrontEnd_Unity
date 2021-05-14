@@ -12268,13 +12268,13 @@ MonoBehaviour:
   Player5: {fileID: 646344511}
   Player6: {fileID: 1248817935}
   PlayersGO: {fileID: 1745617946}
-  TokensGO: {fileID: 0}
-  Token_Player1: {fileID: 0}
-  Token_Player2: {fileID: 0}
-  Token_Player3: {fileID: 0}
-  Token_Player4: {fileID: 0}
-  Token_Player5: {fileID: 0}
-  Token_Player6: {fileID: 0}
+  TokensGO: {fileID: 477554055}
+  Token_Player1: {fileID: 1974198922}
+  Token_Player2: {fileID: 1458729506}
+  Token_Player3: {fileID: 444297143}
+  Token_Player4: {fileID: 1304761406}
+  Token_Player5: {fileID: 577677037}
+  Token_Player6: {fileID: 1339974037}
   DiceGO: {fileID: 1890888732}
   DiceAnimation: {fileID: 1890888734}
   Dice: {fileID: 421068966}

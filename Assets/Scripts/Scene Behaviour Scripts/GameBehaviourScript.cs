@@ -60,23 +60,34 @@ public class GameBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DiceGO.enabled = false;
-
-        //Configurar chat
-        ChatPannel.enabled = false;
-        aviso.enabled = false;
-        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
-        msg.onValueChanged.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
-        send.onClick.AddListener(SendMsg);
-
-        Players = new GameObject[] { Player1, Player2, Player3, Player4, Player5, Player6 };
-        Tokens = new GameObject[] { Token_Player1, Token_Player2, Token_Player3, Token_Player4, Token_Player5, Token_Player6 };
-        if (SocketioHandler.op.Equals("reconexion"))
+        try
         {
-            startReconnection();
+
+            //Dado
+            DiceGO.enabled = false;
+            Dice.interactable = false;
+            Dice.onClick.AddListener(useDice);
+
+            //Configurar chat
+            ChatPannel.enabled = false;
+            aviso.enabled = false;
+            chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
+            msg.onValueChanged.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
+            send.onClick.AddListener(SendMsg);
+
+            Players = new GameObject[] { Player1, Player2, Player3, Player4, Player5, Player6 };
+            Tokens = new GameObject[] { Token_Player1, Token_Player2, Token_Player3, Token_Player4, Token_Player5, Token_Player6 };
+            if (SocketioHandler.op.Equals("reconexion"))
+            {
+                startReconnection();
+            }
+            setConnectionHandlers();
+            setPlayersAtStart();
         }
-        setConnectionHandlers();
-        setPlayersAtStart();
+        catch(Exception e)
+        {
+            Debug.Log("Exception " + e);
+        }
     }
 
 
@@ -275,7 +286,7 @@ public class GameBehaviourScript : MonoBehaviour
     }
     IEnumerator reconexionJugador(JObject data)
     {
-        JValue tmp = (JValue)data.Property("user").Value;
+        JValue tmp = (JValue)data.Property("jugador").Value;
         string user = (string)tmp.Value;
 
         JObject images = (JObject)data.Property("imgs").Value;
@@ -303,9 +314,19 @@ public class GameBehaviourScript : MonoBehaviour
     {
         if (jugador.Equals(UserDataScript.getInfo("username")))
         {
-            DiceGO.enabled = true;
-            Dice.interactable = true;
-            DiceAnimation.Play(); //Lanzar animación
+            try
+            {
+
+                Debug.Log("Enters here - turno");
+                DiceGO.enabled = true;
+                Dice.interactable = true;
+                DiceAnimation.Play(); //Lanzar animación
+                Debug.Log("Exits - turno");
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
         }
         else
         {
@@ -316,8 +337,9 @@ public class GameBehaviourScript : MonoBehaviour
     }
 
     // Función de pulsar el dado
-    private void useDice()
+    void useDice()
     {
+        Debug.Log("Enters here - useDice");
         Dice.interactable = false;
         diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
         SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => {

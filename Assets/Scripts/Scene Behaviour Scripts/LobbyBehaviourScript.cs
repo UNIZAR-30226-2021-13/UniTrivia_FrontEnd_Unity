@@ -125,9 +125,12 @@ public class LobbyBehaviourScript : MonoBehaviour
         yield return null;
     }
 
-    IEnumerator nuevoUsuario(JObject usuario)
+    void setUsuario(JObject usuario, string fieldName)
     {
-        JValue tmp = (JValue)usuario.Property("usuario").Value;
+        Debug.Log("===nuevoUsuario===");
+        Debug.Log(usuario);
+        Debug.Log("==================");
+        JValue tmp = (JValue)usuario.Property(fieldName).Value;
         string nombre = (string)tmp.Value;
 
         JObject images = (JObject)usuario.Property("imgs").Value;
@@ -140,7 +143,7 @@ public class LobbyBehaviourScript : MonoBehaviour
         string ficha = (string)tmp.Value;
 
         //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
-        PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, 777, new string[]{ });
+        PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, 777, new string[] { });
         PlayersDataScript.nuevoJugador(jugador);
 
 
@@ -160,6 +163,11 @@ public class LobbyBehaviourScript : MonoBehaviour
 
         jugadores++;
 
+    }
+
+    IEnumerator nuevoUsuario(JObject usuario)
+    {
+        setUsuario(usuario, "jugador");
         yield return null;
     }
 
@@ -180,11 +188,8 @@ public class LobbyBehaviourScript : MonoBehaviour
 
             foreach (JToken j in jugadores)
             {
-                JObject jugador = (JObject)j;
-                //JObject userDisplay = (JObject)jugador.Value;
-                Debug.Log("Añadiendo: " + jugador);
-                StartCoroutine(nuevoUsuario(jugador));
-                Debug.Log("Añadido");
+                JObject usuario = (JObject)j;
+                setUsuario(usuario, "usuario");
             }
         }
         yield return null;

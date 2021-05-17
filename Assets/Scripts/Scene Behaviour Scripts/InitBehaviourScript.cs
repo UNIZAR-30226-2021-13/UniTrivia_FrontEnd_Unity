@@ -17,6 +17,18 @@ public class InitBehaviourScript : MonoBehaviour
             SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
         } else
         {
+            if(!PlayerPrefs.HasKey("soundActive"))
+            {
+                PlayerPrefs.SetInt("soundActive", 1);
+            }
+
+            if (!PlayerPrefs.HasKey("musicActive"))
+            {
+                PlayerPrefs.SetInt("musicActive", 1);
+            }
+
+            SoundManager.Init();
+            SoundManager.PlayMusic();
 
             SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
         }

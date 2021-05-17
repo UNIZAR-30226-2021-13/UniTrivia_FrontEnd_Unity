@@ -67,12 +67,14 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void JoinGameOnClick()
     {
+        SoundManager.PlayButtonSound();
         JoinGameCanvas.enabled = true;
         InputIDButton.onClick.AddListener(InputIDButtonOnClick);
     }
 
     void RandomGameOnClick()
     {
+        SoundManager.PlayButtonSound();
         Dictionary<string, string> args = new Dictionary<string, string>();
         SocketioHandler.Init("buscarPartida", args);
         SceneManager.LoadScene("Lobby Scene", LoadSceneMode.Single);
@@ -80,6 +82,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void CreateGameOnClick()
     {
+        SoundManager.PlayButtonSound();
         Dictionary<string, string> args = new Dictionary<string, string>();
         args.Add("priv", "true");
         SocketioHandler.Init("crearSala", args);
@@ -88,6 +91,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void ReconnectOnClick()
     {
+        SoundManager.PlayButtonSound();
         Dictionary<string, string> args = new Dictionary<string, string>();
         SocketioHandler.Init("reconexion", args);
         SceneManager.LoadScene("Game Scene", LoadSceneMode.Single);
@@ -95,16 +99,19 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void ProfileButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Profile Scene", LoadSceneMode.Single);
     }
 
     void LoginButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
     }
 
     void OptionsButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Options Scene", LoadSceneMode.Single);
     }
 

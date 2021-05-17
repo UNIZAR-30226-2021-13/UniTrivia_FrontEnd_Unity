@@ -40,21 +40,25 @@ public class LoginBehaviourScript : MonoBehaviour
 
     void LoginButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         StartCoroutine(LoginRequest(UsernameInput.text, PasswordInput.text));
     }
 
     void RecoverButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Recover Scene", LoadSceneMode.Single);
     }
 
     void RegisterButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Register Scene", LoadSceneMode.Single);
     }
 
     void GuestButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         StartCoroutine(GuestRequest());
     }
 

@@ -8,7 +8,7 @@ using Socket.Newtonsoft.Json.Linq;
 
 public class GameBehaviourScript : MonoBehaviour
 {
-    public GameObject Board;
+    public GameObject BoardButtons;
     public GameObject Player1;
     public GameObject Player2;
     public GameObject Player3;
@@ -60,6 +60,15 @@ public class GameBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DiceGO.enabled = false;
+
+        //Configurar chat
+        ChatPannel.enabled = false;
+        aviso.enabled = false;
+        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
+        msg.onValueChanged.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
+        send.onClick.AddListener(SendMsg);
+
         Players = new GameObject[] { Player1, Player2, Player3, Player4, Player5, Player6 };
         Tokens = new GameObject[] { Token_Player1, Token_Player2, Token_Player3, Token_Player4, Token_Player5, Token_Player6 };
         if (SocketioHandler.op.Equals("reconexion"))
@@ -68,12 +77,6 @@ public class GameBehaviourScript : MonoBehaviour
         }
         setConnectionHandlers();
         setPlayersAtStart();
-
-        //Configurar chat
-        ChatPannel.enabled = false;
-        chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
-        msg.onValueChange.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
-        send.onClick.AddListener(SendMsg);
     }
 
 
@@ -121,8 +124,11 @@ public class GameBehaviourScript : MonoBehaviour
     private void setTokenInPosition(GameObject token, int position)
     {
         //¿TODO ANIMATION y MULTIPOSICION?
-
-        token.transform.position = Board.transform.Find("BoardButton (" + position + ")").transform.position;
+        Debug.Log("BoardButton (" + position + ")");
+        Transform c = BoardButtons.transform;
+        Transform a = c.Find("BoardButton (" + position + ")");
+        Transform b = token.transform;
+        b.position = a.position;
     }
 
     private void startReconnection()
@@ -167,6 +173,7 @@ public class GameBehaviourScript : MonoBehaviour
             //      usuario: (string),
             //      msg: (string)
             // }
+            Debug.Log("Se lanza el evento de chat");
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(chat((JObject)data)));
         });
         SocketioHandler.AddHandler("jugadorSale", (data) =>
@@ -196,17 +203,18 @@ public class GameBehaviourScript : MonoBehaviour
 
         foreach (JToken j in jugadores)
         {
-            JValue jugadorJV = (JValue)j;
-            JObject jugadorJO = (JObject)jugadorJV.Value;
+            JObject jugadorJO = (JObject)j;
 
             JValue tmp = (JValue)jugadorJO.Property("usuario").Value;
             string nombre = (string)tmp.Value;
 
             tmp = (JValue)jugadorJO.Property("casilla").Value;
-            int posicion = (int)tmp.Value;
+            Debug.Log(tmp.Value.GetType());
+            long posLong = (long)tmp.Value;
+            int posicion = unchecked((int)posLong);
 
-            tmp = (JValue)jugadorJO.Property("imgs").Value;
-            JObject images = (JObject)tmp.Value;
+            JObject images = (JObject)jugadorJO.Property("imgs").Value;
+
 
             tmp = (JValue)images.Property("avatar").Value;
             string avatar = (string)tmp.Value;
@@ -216,11 +224,12 @@ public class GameBehaviourScript : MonoBehaviour
             string ficha = (string)tmp.Value;
 
             JArray quesitosJA = (JArray)jugadorJO.Property("quesitos").Value;
-            List<string> quesitos = new List<string>(quesitosJA.Count);
-            int i = 0;
+            List<string> quesitos = new List<string> { };
             foreach(JToken q in quesitosJA)
             {
-                quesitos[i++] = (string)((JValue)q).Value;
+                string queso = (string)((JValue)q).Value;
+                Debug.Log(queso);
+                quesitos.Add(queso);
             }
 
             //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
@@ -239,7 +248,8 @@ public class GameBehaviourScript : MonoBehaviour
         JValue quesJV = (JValue)data.Property("ques").Value;
 
         string user = (string)userJV.Value;
-        int casilla = (int)casillaJV.Value;
+        long casillaLong = (long)casillaJV.Value;
+        int casilla = unchecked((int)casillaLong);
         string ques = (string)quesJV.Value;
 
         //Actualizar quesito
@@ -265,11 +275,10 @@ public class GameBehaviourScript : MonoBehaviour
     }
     IEnumerator reconexionJugador(JObject data)
     {
-        JValue userJV = (JValue)data.Property("user").Value;
-        string user = (string)userJV.Value;
+        JValue tmp = (JValue)data.Property("user").Value;
+        string user = (string)tmp.Value;
 
-        JValue tmp = (JValue)data.Property("imgs").Value;
-        JObject images = (JObject)tmp.Value;
+        JObject images = (JObject)data.Property("imgs").Value;
 
         tmp = (JValue)images.Property("avatar").Value;
         string avatar = (string)tmp.Value;
@@ -348,7 +357,7 @@ public class GameBehaviourScript : MonoBehaviour
                 string tipo = (string)((JValue)casillaJO.Property("tipo").Value).Value;
                 if (tipo.Equals("dado"))
                 {
-                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
+                    BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
                         hideBoardButtons();
                         SendJugada(casilla, "", false);
                         turno(UserDataScript.getInfo("username"));
@@ -366,14 +375,14 @@ public class GameBehaviourScript : MonoBehaviour
                         resp_inc.Add((string)((JValue)r).Value);
                     }
 
-                    Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
+                    BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
                         hideBoardButtons();
                         newQuestion(tipo.Equals("quesito"), categoria, question, resp_c, resp_inc, casilla);
                     });
                 }
 
-                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
-                Board.transform.Find("BoardButton (" + casilla + ")").GetComponent<Image>().sprite = Resources.Load<Sprite>("Dice/dado_" + diceNumber);
+                BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
+                BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Image>().sprite = Resources.Load<Sprite>("Dice/dado_" + diceNumber);
             }
         }
         else
@@ -387,7 +396,7 @@ public class GameBehaviourScript : MonoBehaviour
     }
     private void hideBoardButtons()
     {
-        foreach(Transform child in Board.transform) //Magically Unity provides the children of Board only in a foreach of its transform
+        foreach(Transform child in BoardButtons.transform) //Magically Unity provides the children of Board only in a foreach of its transform
         {
             child.GetComponent<Button>().interactable = false;
             child.GetComponent<Image>().sprite = Resources.Load<Sprite>("void");
@@ -424,6 +433,7 @@ public class GameBehaviourScript : MonoBehaviour
     //Cuando llega un mensaje por el socket
     IEnumerator chat(JObject data)
     {
+        Debug.Log("Nuevo mensaje");
         JValue userJV = (JValue)data.Property("usuario").Value;
         JValue msgJV = (JValue)data.Property("msg").Value;
 
@@ -431,7 +441,7 @@ public class GameBehaviourScript : MonoBehaviour
         string msg = (string)msgJV.Value;
 
         chatLog.text = chatLog.text + user + ": " + msg + "\n";
-        aviso.enabled = ChatPannel.enabled;
+        aviso.enabled = !ChatPannel.enabled;
 
         yield return null;
     }

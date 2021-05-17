@@ -127,17 +127,16 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     IEnumerator nuevoUsuario(JObject usuario)
     {
-        JValue tmp = (JValue)usuario.Property("jugador").Value;
+        JValue tmp = (JValue)usuario.Property("usuario").Value;
         string nombre = (string)tmp.Value;
 
-        tmp = (JValue)usuario.Property("imgs").Value;
-        JObject images = (JObject)tmp.Value;
+        JObject images = (JObject)usuario.Property("imgs").Value;
 
-        tmp = (JValue)usuario.Property("avatar").Value;
+        tmp = (JValue)images.Property("avatar").Value;
         string avatar = (string)tmp.Value;
-        tmp = (JValue)usuario.Property("banner").Value;
+        tmp = (JValue)images.Property("banner").Value;
         string banner = (string)tmp.Value;
-        tmp = (JValue)usuario.Property("ficha").Value;
+        tmp = (JValue)images.Property("ficha").Value;
         string ficha = (string)tmp.Value;
 
         //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
@@ -181,11 +180,10 @@ public class LobbyBehaviourScript : MonoBehaviour
 
             foreach (JToken j in jugadores)
             {
-                JValue jugador = (JValue)j;
-                Debug.Log("klk manin 1");
-                JObject userDisplay = (JObject)jugador.Value;
-                Debug.Log("Añadiendo: " + userDisplay);
-                StartCoroutine(nuevoUsuario(userDisplay));
+                JObject jugador = (JObject)j;
+                //JObject userDisplay = (JObject)jugador.Value;
+                Debug.Log("Añadiendo: " + jugador);
+                StartCoroutine(nuevoUsuario(jugador));
                 Debug.Log("Añadido");
             }
         }

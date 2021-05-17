@@ -36,7 +36,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
         ReconnectButton.gameObject.SetActive(false);
 
-        IdentificadorInput.onValueChange.AddListener((id)=> { 
+        IdentificadorInput.onValueChanged.AddListener((id)=> { 
             InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
         });
 

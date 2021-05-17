@@ -34,27 +34,31 @@ public static class SocketioHandler {
         }
 
         Debug.Log("Comienza initSocketio()");
-        IO.Options opciones = new IO.Options();
-        opciones.ExtraHeaders.Add("jwt", PlayerPrefs.GetString("Token"));
-        opciones.ExtraHeaders.Add("operacion",op);
-
-        socket = IO.Socket(ENDPOINT, opciones);
-
-        foreach (KeyValuePair<string, string> entry in args)
+        try
         {
-            opciones.ExtraHeaders.Add(entry.Key, entry.Value);
+            IO.Options opciones = new IO.Options();
+            opciones.ExtraHeaders.Add("jwt", UserDataScript.getInfo("token"));
+            opciones.ExtraHeaders.Add("operacion", op);
+
+            socket = IO.Socket(ENDPOINT, opciones);
+
+            foreach (KeyValuePair<string, string> entry in args)
+            {
+                opciones.ExtraHeaders.Add(entry.Key, entry.Value);
+            }
+
+            foreach (KeyValuePair<string, Action<object>> entry in handlers)
+            {
+                socket.On(entry.Key, entry.Value);
+            }
+
+
+            socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason); fnEnd(); });
+            socket.On(QSocket.EVENT_RECONNECT, () => { Debug.Log("Reconnected"); });
+            socket.On(QSocket.EVENT_CONNECT, () => { Debug.Log("Connected"); fnConexion(); });
+        }catch (Exception e) { 
+            Debug.Log("Exception: " + e); 
         }
-
-        foreach (KeyValuePair<string, Action<object>> entry in handlers)
-        {
-            socket.On(entry.Key, entry.Value);
-        }
-
-
-        socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason); fnEnd(); });
-        socket.On(QSocket.EVENT_RECONNECT, () => { Debug.Log("Reconnected"); });
-        socket.On(QSocket.EVENT_CONNECT, () => { fnConexion(); });
-
         return true;
     }
 

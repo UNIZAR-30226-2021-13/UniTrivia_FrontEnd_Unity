@@ -39,7 +39,6 @@ public class PlayersDataScript
     }
     public static void eliminarJugador(string nombre)
     {
-        int i = 0;
         jugadores.RemoveAt(index(nombre));
     }
 

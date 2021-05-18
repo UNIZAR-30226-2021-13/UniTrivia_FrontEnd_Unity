@@ -48,7 +48,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     void Start(){
         ErrorCanvas.enabled = false;
 
-        setLider(true);
+        setLider(false);
 
         if(SocketioHandler.op.Equals("crearSala"))
         {
@@ -84,7 +84,14 @@ public class LobbyBehaviourScript : MonoBehaviour
                 LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(setIdSala((string)id)));
             });
         }, ()=> {
-            LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single));
+            if (LobbyBehaviourScript.ExecuteOnMainThread != null)
+            {
+                LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single));
+            }
+            if (GameBehaviourScript.ExecuteOnMainThread != null)
+            {
+                GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single));
+            }
         },handlers);
 
         StartButton.onClick.AddListener(StartButtonOnClick);
@@ -133,14 +140,18 @@ public class LobbyBehaviourScript : MonoBehaviour
         JValue tmp = (JValue)usuario.Property(fieldName).Value;
         string nombre = (string)tmp.Value;
 
-        JObject images = (JObject)usuario.Property("imgs").Value;
+        string avatar = "avatar0", banner = "banner0", ficha = "ficha0";
+        if (usuario.Property("imgs").Value.Type != JTokenType.Null)
+        {
+            JObject images = (JObject)usuario.Property("imgs").Value;
 
-        tmp = (JValue)images.Property("avatar").Value;
-        string avatar = (string)tmp.Value;
-        tmp = (JValue)images.Property("banner").Value;
-        string banner = (string)tmp.Value;
-        tmp = (JValue)images.Property("ficha").Value;
-        string ficha = (string)tmp.Value;
+            tmp = (JValue)images.Property("avatar").Value;
+            avatar = (string)tmp.Value;
+            tmp = (JValue)images.Property("banner").Value;
+            banner = (string)tmp.Value;
+            tmp = (JValue)images.Property("ficha").Value;
+            ficha = (string)tmp.Value;
+        }
 
         //Jugador(string nombre, string banner, string avatar, string ficha, int posicion, string[] quesitos)
         PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, 777, new string[] { });
@@ -175,22 +186,12 @@ public class LobbyBehaviourScript : MonoBehaviour
     {
         JArray jugadores = (JArray)data.Property("jugadores").Value;
         Debug.Log("Número de jugadores en la sala: " + jugadores.Count);
-        if (jugadores.Count == 1) //Estoy yo solo en la sala
+        setLider(jugadores.Count == 1);
+        foreach (JToken j in jugadores)
         {
-            Debug.Log("Sos lider huevón");
-            setLider(true);
-        }
-        else
-        {
-            Debug.Log("No sos lider huevón");
-
-            setLider(false);
-
-            foreach (JToken j in jugadores)
-            {
-                JObject usuario = (JObject)j;
-                setUsuario(usuario, "usuario");
-            }
+            Debug.Log("gg");
+            JObject usuario = (JObject)j;
+            setUsuario(usuario, "usuario");
         }
         yield return null;
 
@@ -255,6 +256,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     void CancelButtonOnClick()
     {
         //SceneManager.UnloadSceneAsync("Options Scene");
+        SocketioHandler.End();
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
     }
 

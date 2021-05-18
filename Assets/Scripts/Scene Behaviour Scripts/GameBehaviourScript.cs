@@ -79,7 +79,7 @@ public class GameBehaviourScript : MonoBehaviour
             ChatPannel.enabled = false;
             aviso.enabled = false;
             chatButton.onClick.AddListener(() => { ChatPannel.enabled = !ChatPannel.enabled; aviso.enabled = false; });
-            msg.onValueChanged.AddListener((mensaje) => { chatButton.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
+            msg.onValueChanged.AddListener((mensaje) => { send.interactable = !string.IsNullOrEmpty(mensaje) && mensaje.Length > 0; });
             send.onClick.AddListener(SendMsg);
 
             Players = new GameObject[] { Player1, Player2, Player3, Player4, Player5, Player6 };

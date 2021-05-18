@@ -132,8 +132,11 @@ public class LoginBehaviourScript : MonoBehaviour
             Debug.Log("EXITO GUEST:" + requestGuest.downloadHandler.text);
 
             // Save guest data
-            UserDataScript.setInfo("username", "Invitado");
+            UserDataScript.setInfo("username", "Invitado (yo)");
             UserDataScript.setInfo("token", requestGuest.downloadHandler.text);
+            UserDataScript.setInfo("avatar", "avatar0");
+            UserDataScript.setInfo("banner", "banner0");
+            UserDataScript.setInfo("ficha", "ficha0");
 
             SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
         }

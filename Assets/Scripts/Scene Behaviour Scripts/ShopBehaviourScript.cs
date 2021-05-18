@@ -19,7 +19,7 @@ public class ShopBehaviourScript : MonoBehaviour
     private int index = 0;
     private int maxIndex = 5;
     private string path = "Avatar/";
-    private string name = "avatar";
+    private string objectName = "avatar";
 
     // Start is called before the first frame update
     void Start()
@@ -30,37 +30,37 @@ public class ShopBehaviourScript : MonoBehaviour
         BannerShopButton.onClick.AddListener(BannerShopButtonOnClick);
         TokenShopButton.onClick.AddListener(TokenShopButtonOnClick);
 
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
     void AvatarShopButtonOnClick()
     {
         path = "Avatar/";
-        name = "avatar";
+        objectName = "avatar";
         index = 0;
         maxIndex = 5;
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
     void BannerShopButtonOnClick()
     {
         path = "Banner/";
-        name = "banner";
+        objectName = "banner";
         index = 0;
         maxIndex = 5;
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
     void TokenShopButtonOnClick()
     {
         path = "Token/";
-        name = "ficha";
+        objectName = "ficha";
         index = 0;
         maxIndex = 3;
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
@@ -73,7 +73,7 @@ public class ShopBehaviourScript : MonoBehaviour
         {
             index--;
         }
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
@@ -87,7 +87,7 @@ public class ShopBehaviourScript : MonoBehaviour
         {
             index++;
         }
-        ObjectImage.sprite = Resources.Load<Sprite>(path + name + index);
+        ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
     }
 
@@ -98,17 +98,17 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void ActiveButtonOnClick()
     {
-        StartCoroutine(ActiveRequest(name + index, name));
+        StartCoroutine(ActiveRequest(objectName + index, objectName));
     }
 
     void checkActualItem()
     {
-        if(UserDataScript.isItem(name + index))
+        if(UserDataScript.isItem(objectName + index))
         {
             BuyButton.interactable = false;
             BuyButton.GetComponentInChildren<Text>().text = "EN POSESIÓN";
 
-            if (UserDataScript.getInfo(name).Equals(name + index))
+            if (UserDataScript.getInfo(objectName).Equals(objectName + index))
             {
                 ActiveButton.interactable = true;
                 ActiveButton.GetComponentInChildren<Text>().text = "ACTIVAR";

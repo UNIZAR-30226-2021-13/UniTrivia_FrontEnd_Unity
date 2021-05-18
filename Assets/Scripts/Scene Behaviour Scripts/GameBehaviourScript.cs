@@ -38,6 +38,11 @@ public class GameBehaviourScript : MonoBehaviour
     public Text chatLog;
     public Image aviso;
 
+    //ENDGAME
+    public GameObject endgame;
+    public Image endgameImage;
+    public InputField winner;
+    public Button returnButton;
 
     private GameObject[] Players;
     private GameObject[] Tokens;
@@ -62,6 +67,8 @@ public class GameBehaviourScript : MonoBehaviour
     {
         try
         {
+            endgame.SetActive(false);
+            returnButton.onClick.AddListener(ReturnButtonOnClick);
 
             //Dado
             DiceGO.enabled = false;
@@ -274,16 +281,43 @@ public class GameBehaviourScript : MonoBehaviour
 
         yield return null;
     }
+
     IEnumerator findDelJuego(string jugador)
     {
-        //TODO implementar
+        winner.text = jugador;
+
+        if (jugador.Equals(UserDataScript.getInfo("username")))
+        {
+            endgameImage.sprite = Resources.Load<Sprite>("victory");
+        } else
+        {
+            endgameImage.sprite = Resources.Load<Sprite>("defeat");
+        }
+
+        endgame.SetActive(true);
+
         yield return null;
     }
+
     IEnumerator jugadorSale(string jugador)
     {
-        //TOOD decidir qué hace
+        /*
+        //Need debug
+        foreach (GameObject player in PlayersGO.GetComponents<GameObject>())
+        {
+            Text playerName = player.transform.GetChild(3).gameObject.GetComponent<Text>();
+            Debug.Log("JUGADORSALE: " + playerName);
+
+            if (playerName.text.Equals(jugador))
+            {
+                playerName.color = Color.gray;
+                LocalMsg(jugador + " ha salido de la partida");
+            }
+        }
+        */
         yield return null;
     }
+
     IEnumerator reconexionJugador(JObject data)
     {
         JValue tmp = (JValue)data.Property("jugador").Value;
@@ -312,25 +346,39 @@ public class GameBehaviourScript : MonoBehaviour
     // Gestión del evento de turno del socket
     IEnumerator turno(string jugador)
     {
+        //Need debug
+        /*
+        foreach (GameObject player in PlayersGO.GetComponents<GameObject>())
+        {
+            Text playerName = player.GetComponent<Text>();
+
+            if (playerName.text.Equals(jugador))
+            {
+                playerName.color = Color.red;
+                LocalMsg("Turno de " + jugador);
+            }
+            else
+            {
+                playerName.color = Color.white;
+            }
+        }
+        */
+
+        //Our turn
         if (jugador.Equals(UserDataScript.getInfo("username")))
         {
             try
             {
-
                 Debug.Log("Enters here - turno");
                 DiceGO.enabled = true;
                 Dice.interactable = true;
                 DiceAnimation.Play(); //Lanzar animación
                 Debug.Log("Exits - turno");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.Log(e);
             }
-        }
-        else
-        {
-            //¿TODO - MARCAR DE QUIÉN ES EL TURNO?
         }
 
         yield return null;
@@ -449,7 +497,9 @@ public class GameBehaviourScript : MonoBehaviour
     //Cuando se pulsa el botón para enviar un mensaje
     void SendMsg()
     {
+        chatLog.text = chatLog.text + UserDataScript.getInfo("username") + ": " + msg.text + "\n";
         SocketioHandler.socket.Emit("mensaje",msg.text);
+        msg.text = "";
     }
 
     //Cuando llega un mensaje por el socket
@@ -466,6 +516,11 @@ public class GameBehaviourScript : MonoBehaviour
         aviso.enabled = !ChatPannel.enabled;
 
         yield return null;
+    }
+
+    void LocalMsg(string msg)
+    {
+        chatLog.text = chatLog.text + "..." + msg + "..." + "\n";
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -486,6 +541,12 @@ public class GameBehaviourScript : MonoBehaviour
             ts[i] = ts[r];
             ts[r] = tmp;
         }
+    }
+
+    void ReturnButtonOnClick()
+    {
+        //SceneManager.UnloadSceneAsync("Profile Scene");
+        SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
     }
 }
 

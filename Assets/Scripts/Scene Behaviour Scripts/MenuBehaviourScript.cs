@@ -15,6 +15,11 @@ public class MenuBehaviourScript : MonoBehaviour
     public Button OptionsButton;
     public Button ReconnectButton;
 
+    //InfoMenu
+    public Text Coins;
+    public Text Username;
+    public Image userAvatar;
+
     // Canvas id to join game
     public Canvas JoinGameCanvas;
     public Button InputIDButton;
@@ -40,11 +45,16 @@ public class MenuBehaviourScript : MonoBehaviour
             InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
         });
 
-        if (PlayerPrefs.GetString("Username").Equals("Invitado"))
+        Coins.text = "" + UserDataScript.getCoins();
+        Username.text = UserDataScript.getInfo("username");
+
+        if (UserDataScript.getInfo("username").Equals("Invitado (yo)"))
         {
+            Resources.Load<Sprite>("Avatar/avatar0");
             ProfileButton.gameObject.SetActive(false);
         } else
         {
+            Resources.Load<Sprite>("Avatar/" + PlayerPrefs.GetString("avatar"));
             LoginButton.gameObject.SetActive(false);
             StartCoroutine(checkUserReconnection());
         }

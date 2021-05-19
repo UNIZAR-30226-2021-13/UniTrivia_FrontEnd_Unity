@@ -24,6 +24,7 @@ public class PlayersDataScript
         }
     }
 
+    public static string turno { get; set; }
     public static readonly List<Jugador> jugadores = new List<Jugador>();
     public static void nuevoJugador(Jugador nuevo)
     {

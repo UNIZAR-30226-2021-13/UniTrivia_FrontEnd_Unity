@@ -136,7 +136,7 @@ public class GameBehaviourScript : MonoBehaviour
                 setTokenInPosition(Tokens[i], PlayersDataScript.jugadores[i].posicion);
             }
         }
-
+        StartCoroutine(turno(PlayersDataScript.turno));
     }
 
     private void setTokenInPosition(GameObject token, int position)
@@ -541,7 +541,7 @@ public class GameBehaviourScript : MonoBehaviour
                 if(playername.text == jugador)
                 {
                     playername.color = Color.green;
-                } else
+                } else if (playername.color != Color.gray)
                 {
                     playername.color = Color.white;
                 }

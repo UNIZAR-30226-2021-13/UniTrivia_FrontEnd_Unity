@@ -49,8 +49,9 @@ public class LobbyBehaviourScript : MonoBehaviour
         ErrorCanvas.enabled = false;
 
         setLider(false);
+        PlayersDataScript.turno = "";
 
-        if(SocketioHandler.op.Equals("crearSala"))
+        if (SocketioHandler.op.Equals("crearSala"))
         {
             StartCoroutine(setPropio());
             setLider(true);
@@ -79,6 +80,8 @@ public class LobbyBehaviourScript : MonoBehaviour
         handlers.Add("comienzoPartida", (_) => {
             LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => SceneManager.LoadScene("Game Scene", LoadSceneMode.Single));
         });
+
+        handlers.Add("turno", (usuario) => { PlayersDataScript.turno = (string)usuario; });
 
         SocketioHandler.Start(() => {
             SocketioHandler.socket.Emit("obtenerIdSala", (id) => {

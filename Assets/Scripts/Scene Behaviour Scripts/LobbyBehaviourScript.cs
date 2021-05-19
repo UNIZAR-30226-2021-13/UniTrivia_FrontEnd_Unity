@@ -20,7 +20,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     public Text ErrorText;
     public Button ErrorButton;
 
-    private int jugadores = 1;
+    private int jugadores = 0;
 
     public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
 
@@ -34,6 +34,10 @@ public class LobbyBehaviourScript : MonoBehaviour
         if(jugadores >= 2)
         {
             StartButton.interactable = true;
+        }
+        else
+        {
+            StartButton.interactable = false;
         }
     }
 
@@ -233,6 +237,8 @@ public class LobbyBehaviourScript : MonoBehaviour
         usuarioText.alignment = TextAnchor.MiddleLeft;
         usuarioText.fontSize = 36;
         usuarioText.fontStyle = FontStyle.Bold;
+
+        jugadores++;
 
         yield return null;
     }

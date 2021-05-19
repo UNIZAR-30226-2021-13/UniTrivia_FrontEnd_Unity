@@ -26,7 +26,7 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject Token_Player6;
 
     //DADO
-    public Canvas DiceGO;
+    public GameObject DiceGO;
     public Animation DiceAnimation;
     public Button Dice;
 
@@ -71,7 +71,7 @@ public class GameBehaviourScript : MonoBehaviour
             returnButton.onClick.AddListener(ReturnButtonOnClick);
 
             //Dado
-            DiceGO.enabled = false;
+            DiceGO.SetActive(false);
             Dice.interactable = false;
             Dice.onClick.AddListener(useDice);
 
@@ -355,7 +355,7 @@ public class GameBehaviourScript : MonoBehaviour
             try
             {
                 Debug.Log("Enters here - turno");
-                DiceGO.enabled = true;
+                DiceGO.SetActive(true);
                 Dice.interactable = true;
                 DiceAnimation.Play(); //Lanzar animación
                 Debug.Log("Exits - turno");
@@ -408,8 +408,8 @@ public class GameBehaviourScript : MonoBehaviour
                 JObject casillaJO = (JObject)tmp.Property("casilla").Value;
                 JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
 
-                int casilla = (int)((JValue)casillaJO.Property("num").Value).Value;
-                string tipo = (string)((JValue)casillaJO.Property("tipo").Value).Value;
+                int casilla = (int)casillaJO.Property("num").Value;
+                string tipo = (string)casillaJO.Property("tipo").Value;
                 if (tipo.Equals("dado"))
                 {
                     BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
@@ -420,14 +420,14 @@ public class GameBehaviourScript : MonoBehaviour
                 }
                 else
                 {
-                    string categoria = (string)((JValue)casillaJO.Property("categoria").Value).Value;
-                    string question = (string)((JValue)casillaJO.Property("question").Value).Value;
-                    string resp_c = (string)((JValue)casillaJO.Property("resp_c").Value).Value;
+                    string categoria = (string)casillaJO.Property("categoria").Value;
+                    string question = (string)casillaJO.Property("pregunta").Value;
+                    string resp_c = (string)casillaJO.Property("resp_c").Value;
                     JArray resp_incJA = (JArray)casillaJO.Property("resp_inc").Value;
                     List<string> resp_inc = new List<string>();
                     foreach(JToken r in resp_incJA)
                     {
-                        resp_inc.Add((string)((JValue)r).Value);
+                        resp_inc.Add((string)r);
                     }
 
                     BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
@@ -443,10 +443,10 @@ public class GameBehaviourScript : MonoBehaviour
         else
         {
             //TODO GESITONAR EL ERROR
-            JValue infoJV = (JValue)jugadas.Property("info").Value;
-            string info = (string)infoJV.Value;
+            string info = (string)jugadas.Property("info").Value;
         }
 
+        DiceGO.SetActive(false);
         yield return null;
     }
 

@@ -166,6 +166,7 @@ public class GameBehaviourScript : MonoBehaviour
         {
             // A quién le toca jugar
             // data = (string)
+            Debug.Log("turno " + data);
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(turno((string)data)));
         });
         SocketioHandler.AddHandler("jugada", (data) =>

@@ -42,4 +42,8 @@ public class PlayersDataScript
         jugadores.RemoveAt(index(nombre));
     }
 
+    public static void eliminarPartida()
+    {
+        jugadores.Clear();
+    }
 }

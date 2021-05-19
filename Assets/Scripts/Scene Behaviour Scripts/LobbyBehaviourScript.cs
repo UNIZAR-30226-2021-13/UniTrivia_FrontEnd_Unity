@@ -53,6 +53,7 @@ public class LobbyBehaviourScript : MonoBehaviour
         if(SocketioHandler.op.Equals("crearSala"))
         {
             StartCoroutine(setPropio());
+            setLider(true);
         }
 
         Dictionary<string, Action<object>> handlers = new Dictionary<string, Action<object>>();
@@ -186,7 +187,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     {
         JArray jugadores = (JArray)data.Property("jugadores").Value;
         Debug.Log("Número de jugadores en la sala: " + jugadores.Count);
-        setLider(jugadores.Count == 1);
+        setLider(jugadores.Count <= 1);
         foreach (JToken j in jugadores)
         {
             Debug.Log("gg");

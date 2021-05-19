@@ -48,7 +48,7 @@ public class MenuBehaviourScript : MonoBehaviour
         Coins.text = "" + UserDataScript.getCoins();
         Username.text = UserDataScript.getInfo("username");
 
-        if (UserDataScript.getInfo("username").Equals("Invitado (yo)"))
+        if (UserDataScript.getInfo("username").StartsWith("Guest_"))
         {
             Resources.Load<Sprite>("Avatar/avatar0");
             ProfileButton.gameObject.SetActive(false);

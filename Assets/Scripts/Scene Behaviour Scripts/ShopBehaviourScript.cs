@@ -36,6 +36,7 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void AvatarShopButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         path = "Avatar/";
         objectName = "avatar";
         index = 0;
@@ -46,6 +47,7 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void BannerShopButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         path = "Banner/";
         objectName = "banner";
         index = 0;
@@ -56,6 +58,7 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void TokenShopButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         path = "Token/";
         objectName = "ficha";
         index = 0;
@@ -66,7 +69,8 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void LeftButtonOnClick()
     {
-        if(index <= 0)
+        SoundManager.PlayButtonSound();
+        if (index <= 0)
         {
             index = maxIndex;
         } else
@@ -79,6 +83,7 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void RightButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         if (index >= maxIndex)
         {
             index = 0;
@@ -93,11 +98,12 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void BuyButtonOnClick()
     {
-
+        SoundManager.PlayButtonSound();
     }
 
     void ActiveButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         StartCoroutine(ActiveRequest(objectName + index, objectName));
     }
 

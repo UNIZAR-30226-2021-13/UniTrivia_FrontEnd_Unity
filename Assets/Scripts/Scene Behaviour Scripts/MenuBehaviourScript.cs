@@ -127,7 +127,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     void InputIDButtonOnClick()
     {
-
+        SoundManager.PlayButtonSound();
         Dictionary<string, string> args = new Dictionary<string, string>();
         args.Add("sala", IdentificadorInput.text);
         SocketioHandler.Init("unirseSala", args);

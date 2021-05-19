@@ -62,16 +62,19 @@ public class RecoverBehaviourScript : MonoBehaviour
 
     void VerifyUserButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         StartCoroutine(RecoverQuestionRequest(UsernameInput.text));
     }
 
     void ConfirmButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         StartCoroutine(ChangePasswordRequest(UsernameInput.text, AnswerInput.text, PasswordInput.text));
     }
 
     void ReturnButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
     }
 

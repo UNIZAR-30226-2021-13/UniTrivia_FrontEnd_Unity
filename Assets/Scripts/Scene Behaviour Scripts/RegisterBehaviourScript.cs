@@ -65,12 +65,13 @@ public class RegisterBehaviourScript : MonoBehaviour
 
     void RegisterButtonOnClick()
     {
-        //verifyButton.interactable = true;
+        SoundManager.PlayButtonSound();
         StartCoroutine(RegisterRequest(UsernameInput.text, PasswordInput.text, EmailInput.text, QuestionInput.text, AnswerInput.text));
     }
 
     void ReturnButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
     }
 

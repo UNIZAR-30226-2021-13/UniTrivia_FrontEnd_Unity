@@ -19,7 +19,8 @@ public class ErrorBehaviourScript : MonoBehaviour
 
     private void ErrorButtonOnClick()
     {
-        if(ErrorDataScript.getButtonMode() == 0)
+        SoundManager.PlayButtonSound();
+        if (ErrorDataScript.getButtonMode() == 0)
         {
             Application.Quit();
         } else

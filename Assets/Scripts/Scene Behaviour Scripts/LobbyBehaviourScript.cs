@@ -249,6 +249,7 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     void StartButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SocketioHandler.socket.Emit("comenzarPartida", (res) => {
             LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => comenzarPartida((JObject)res));
         });
@@ -256,6 +257,7 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     void CancelButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         //SceneManager.UnloadSceneAsync("Options Scene");
         SocketioHandler.End();
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);

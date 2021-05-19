@@ -302,20 +302,14 @@ public class GameBehaviourScript : MonoBehaviour
 
     IEnumerator jugadorSale(string jugador)
     {
-        /*
         //Need debug
-        foreach (GameObject player in PlayersGO.GetComponents<GameObject>())
-        {
-            Text playerName = player.transform.GetChild(3).gameObject.GetComponent<Text>();
-            Debug.Log("JUGADORSALE: " + playerName);
+        checkColorPlayername(Player1, jugador, "desconexion");
+        checkColorPlayername(Player2, jugador, "desconexion");
+        checkColorPlayername(Player3, jugador, "desconexion");
+        checkColorPlayername(Player4, jugador, "desconexion");
+        checkColorPlayername(Player5, jugador, "desconexion");
+        checkColorPlayername(Player6, jugador, "desconexion");
 
-            if (playerName.text.Equals(jugador))
-            {
-                playerName.color = Color.gray;
-                LocalMsg(jugador + " ha salido de la partida");
-            }
-        }
-        */
         yield return null;
     }
 
@@ -348,22 +342,12 @@ public class GameBehaviourScript : MonoBehaviour
     IEnumerator turno(string jugador)
     {
         //Need debug
-        /*
-        foreach (GameObject player in PlayersGO.GetComponents<GameObject>())
-        {
-            Text playerName = player.GetComponent<Text>();
-
-            if (playerName.text.Equals(jugador))
-            {
-                playerName.color = Color.red;
-                LocalMsg("Turno de " + jugador);
-            }
-            else
-            {
-                playerName.color = Color.white;
-            }
-        }
-        */
+        checkColorPlayername(Player1, jugador, "turno");
+        checkColorPlayername(Player2, jugador, "turno");
+        checkColorPlayername(Player3, jugador, "turno");
+        checkColorPlayername(Player4, jugador, "turno");
+        checkColorPlayername(Player5, jugador, "turno");
+        checkColorPlayername(Player6, jugador, "turno");
 
         //Our turn
         if (jugador.Equals(UserDataScript.getInfo("username")))
@@ -543,6 +527,34 @@ public class GameBehaviourScript : MonoBehaviour
             var tmp = ts[i];
             ts[i] = ts[r];
             ts[r] = tmp;
+        }
+    }
+
+    void checkColorPlayername(GameObject player, string jugador, string func)
+    {
+        Text playername = player.GetComponentInChildren<Text>();
+
+        switch (func)
+        {
+            case "turno":
+                Debug.Log("COLOR.TURNO: " + playername.text + jugador);
+                if(playername.text == jugador)
+                {
+                    playername.color = Color.green;
+                } else
+                {
+                    playername.color = Color.white;
+                }
+                break;
+            case "desconexion":
+                Debug.Log("COLOR.DESCNXN: " + playername.text + jugador);
+                if (playername.text == jugador)
+                {
+                    playername.color = Color.gray;
+                }
+                break;
+            default:
+                break;
         }
     }
 

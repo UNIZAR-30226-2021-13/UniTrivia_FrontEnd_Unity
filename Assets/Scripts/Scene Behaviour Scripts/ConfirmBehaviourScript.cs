@@ -21,11 +21,13 @@ public class ConfirmBehaviourScript : MonoBehaviour
 
     private void ConfirmButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.UnloadSceneAsync("Confirm Scene");
     }
 
     private void CancelButtonOnClick()
     {
+        SoundManager.PlayButtonSound();
         SceneManager.UnloadSceneAsync("Confirm Scene");
     }
 }

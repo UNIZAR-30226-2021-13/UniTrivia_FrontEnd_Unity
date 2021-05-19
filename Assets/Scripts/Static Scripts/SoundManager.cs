@@ -10,6 +10,7 @@ public static class SoundManager
     private static AudioSource buttonAS;
     private static AudioSource chatAS;
     private static AudioSource diceAS;
+    private static AudioSource optionAS;
 
     public static void Init()
     {
@@ -31,6 +32,10 @@ public static class SoundManager
         diceAS = soundManagerGO.AddComponent<AudioSource>();
         diceAS.clip = Resources.Load<AudioClip>("Sounds/tiradadado");
 
+        //Option
+        optionAS = soundManagerGO.AddComponent<AudioSource>();
+        optionAS.clip = Resources.Load<AudioClip>("Sounds/option");
+
         UnityEngine.Object.DontDestroyOnLoad(soundManagerGO);
     }
 
@@ -38,10 +43,15 @@ public static class SoundManager
     {
         if (PlayerPrefs.GetInt("musicActive") == 1)
         {
-            musicAS.volume = 0.01f;
+            musicAS.volume = 0.03f;
             musicAS.loop = true;
             musicAS.Play();
         }
+    }
+
+    public static void StopMusic()
+    {
+        musicAS.Pause();
     }
 
     public static void PlayButtonSound()
@@ -65,6 +75,14 @@ public static class SoundManager
         if (PlayerPrefs.GetInt("soundActive") == 1)
         {
             diceAS.Play();
+        }
+    }
+
+    public static void PlayOptionSound()
+    {
+        if (PlayerPrefs.GetInt("soundActive") == 1)
+        {
+            optionAS.Play();
         }
     }
 }

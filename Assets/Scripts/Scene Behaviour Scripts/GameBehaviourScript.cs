@@ -464,6 +464,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         yield return null;
     }
+
     private void hideBoardButtons()
     {
         foreach(Transform child in BoardButtons.transform) //Magically Unity provides the children of Board only in a foreach of its transform
@@ -472,6 +473,7 @@ public class GameBehaviourScript : MonoBehaviour
             child.GetComponent<Image>().sprite = Resources.Load<Sprite>("void");
         }
     }
+
     private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects, int position)
     {
         //Lo mezcla, genera la posicion e inserta la respuesta correcta ahí

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class QuestionDataScript : MonoBehaviour
 {
@@ -11,8 +12,9 @@ public class QuestionDataScript : MonoBehaviour
     private static bool quesito = false;
     private static string category = "";
     private static int position = 0;
+    public static Action func = null;
 
-    public static void setQuestion(string q, List<string> Answers, int aCorrect, bool Quesito, string Category, int Position)
+    public static void setQuestion(string q, List<string> Answers, int aCorrect, bool Quesito, string Category, int Position, Action fnc)
     {
         question = q;
         answers = Answers.ToArray();
@@ -20,6 +22,7 @@ public class QuestionDataScript : MonoBehaviour
         quesito = Quesito;
         category = Category;
         position = Position;
+        func = fnc;
     }
 
     public static int getCorrectAnswer()

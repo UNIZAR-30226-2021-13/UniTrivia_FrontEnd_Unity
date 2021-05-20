@@ -8,6 +8,7 @@ using Socket.Newtonsoft.Json.Linq;
 
 public class GameBehaviourScript : MonoBehaviour
 {
+    //TABLERO y JUGADORES
     public GameObject BoardButtons;
     public GameObject Player1;
     public GameObject Player2;
@@ -17,6 +18,7 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject Player6;
     public GameObject PlayersGO;
 
+    //FICHAS
     public GameObject TokensGO;
     public GameObject Token_Player1;
     public GameObject Token_Player2;
@@ -46,6 +48,8 @@ public class GameBehaviourScript : MonoBehaviour
 
     private GameObject[] Players;
     private GameObject[] Tokens;
+    private GameObject myPlayer;
+    private GameObject myToken;
 
     private Button[] boardFields;
     private int diceNumber;
@@ -109,11 +113,13 @@ public class GameBehaviourScript : MonoBehaviour
 
     }
 
+    //Cerrar la conexión con Socket
     void OnApplicationQuit()
     {
         SocketioHandler.End();
     }
 
+    //Instanciar los jugadores de la partida
     private void setPlayersAtStart()
     {
         for(int i = 0; i < 6; i++)
@@ -134,11 +140,20 @@ public class GameBehaviourScript : MonoBehaviour
                     Players[i].GetComponentsInChildren<Image>(true)[3+idx].gameObject.SetActive(true);
                 }
                 setTokenInPosition(Tokens[i], PlayersDataScript.jugadores[i].posicion);
+
+                //Verificamos que ficha es la nuestra y guardamos referencia
+                if(Players[i].name == UserDataScript.getInfo("username"))
+                {
+                    QuestionBehaviourScript.myPlayer = Players[i];
+                    myPlayer = Players[i];
+                    myToken = Tokens[i];
+                }
             }
         }
         StartCoroutine(turno(PlayersDataScript.turno));
     }
 
+    //Mover ficha a posición
     private void setTokenInPosition(GameObject token, int position)
     {
         //¿TODO ANIMATION y MULTIPOSICION?
@@ -263,6 +278,7 @@ public class GameBehaviourScript : MonoBehaviour
 
     IEnumerator jugada(JObject data)
     {
+        Debug.Log("JUGADA");
         JValue userJV = (JValue)data.Property("user").Value;
         JValue casillaJV = (JValue)data.Property("casilla").Value;
         JValue quesJV = (JValue)data.Property("ques").Value;
@@ -311,6 +327,7 @@ public class GameBehaviourScript : MonoBehaviour
         checkColorPlayername(Player5, jugador, "desconexion");
         checkColorPlayername(Player6, jugador, "desconexion");
 
+        LocalMsg(jugador + " se ha desconectado");
         yield return null;
     }
 
@@ -334,6 +351,8 @@ public class GameBehaviourScript : MonoBehaviour
         checkColorPlayername(Player4, user, "reconexion");
         checkColorPlayername(Player5, user, "reconexion");
         checkColorPlayername(Player6, user, "reconexion");
+
+        LocalMsg(user + " se ha reconectado");
         yield return null;
     }
 
@@ -411,22 +430,26 @@ public class GameBehaviourScript : MonoBehaviour
                 //      }
                 //  }
                 JObject tmp = (JObject)j;
+                Debug.Log(tmp);
                 JObject casillaJO = (JObject)tmp.Property("casilla").Value;
-                JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
+                
                 //Debug.Log(preguntaJO);
 
                 int casilla = (int)casillaJO.Property("num").Value;
                 string tipo = (string)casillaJO.Property("tipo").Value;
-                if (tipo.Equals("dado"))
+                if (tipo.Equals("Dado"))
                 {
                     BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
                         hideBoardButtons();
-                        SendJugada(casilla, "", false);
-                        turno(UserDataScript.getInfo("username"));
+                        setTokenInPosition(myToken, casilla);
+                        SendJugada(casilla, "", false, true);
+                        StartCoroutine(turno(UserDataScript.getInfo("username")));
                     });
                 }
                 else
                 {
+                    JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
+
                     string categoria = (string)preguntaJO.Property("categoria").Value;
                     string question = (string)preguntaJO.Property("pregunta").Value;
                     string resp_c = (string)preguntaJO.Property("resp_c").Value;
@@ -439,7 +462,8 @@ public class GameBehaviourScript : MonoBehaviour
 
                     BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
                         hideBoardButtons();
-                        newQuestion(tipo.Equals("quesito"), categoria, question, resp_c, resp_inc, casilla);
+                        setTokenInPosition(myToken, casilla);
+                        newQuestion(tipo.Equals("Quesito"), categoria, question, resp_c, resp_inc, casilla);
                     });
                 }
 
@@ -466,6 +490,7 @@ public class GameBehaviourScript : MonoBehaviour
         }
     }
 
+    //Genera la pregunta de la casilla
     private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects, int position)
     {
         //Lo mezcla, genera la posicion e inserta la respuesta correcta ahí
@@ -473,14 +498,22 @@ public class GameBehaviourScript : MonoBehaviour
         int idCorrect = UnityEngine.Random.Range(0, incorrects.Count + 1);
         incorrects.Insert(idCorrect, correct);
 
-        QuestionDataScript.setQuestion(question,incorrects, idCorrect, quesito, category, position);
+        QuestionDataScript.setQuestion(question, incorrects, idCorrect, quesito, category, position, () => StartCoroutine(turno((UserDataScript.getInfo("username")))));
 
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
 
-    public static void SendJugada(int casilla, string quesito, bool finTurno)
+    //Recibe el resultado de la pregunta
+    public static void SendJugada(int casilla, string quesito, bool finTurno, bool esDado)
     {
-        SocketioHandler.socket.Emit("actualizarJugada",casilla, quesito,finTurno);
+        Debug.Log("SendJugada: " + casilla + quesito + finTurno + esDado);
+        JObject args = new JObject(new JProperty("casilla", casilla), new JProperty("quesito", quesito), new JProperty("finTurno", finTurno));
+        SocketioHandler.socket.Emit("actualizarJugada", (trash) => { return; }, args);
+
+        if(!finTurno && !esDado)
+        {
+            QuestionDataScript.func();
+        }
     }
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -507,7 +540,7 @@ public class GameBehaviourScript : MonoBehaviour
         string user = (string)userJV.Value;
         string msg = (string)msgJV.Value;
 
-        chatLog.text = chatLog.text + user + ": " + msg + "\n";
+        chatLog.text = chatLog.text + user + ":  " + msg + "\n";
         aviso.enabled = !ChatPannel.enabled;
 
         yield return null;

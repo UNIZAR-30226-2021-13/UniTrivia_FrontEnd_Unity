@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ public class QuestionBehaviourScript : MonoBehaviour
 
     private float timeQuestion = 60.0f;
     private bool answered = false;
+    public static GameObject myPlayer = null;
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +76,7 @@ public class QuestionBehaviourScript : MonoBehaviour
             {
                 SoundManager.PlayAnswerSound(false);
                 answersNonInteractable();
-                GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+                GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
                 StartCoroutine(WaitAndExit(3));
             }
         }
@@ -84,90 +86,120 @@ public class QuestionBehaviourScript : MonoBehaviour
     {
         answersNonInteractable();
         answered = true;
-        if (QuestionDataScript.getCorrectAnswer() == 1)
+        if (QuestionDataScript.getCorrectAnswer() == 0)
         {
             string quesito = QuestionDataScript.getCategory();
+            if(QuestionDataScript.getQuesito())
+            {
+                activateQuesito(quesito);
+            }
             answerOneButton.GetComponent<Image>().color = Color.green;
             SoundManager.PlayAnswerSound(true);
             addCoin();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito()? quesito : "", !QuestionDataScript.getQuesito());
-            
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito()? quesito : "", false, false);
         }
         else
         {
             answerOneButton.GetComponent<Image>().color = Color.red;
             SoundManager.PlayAnswerSound(false);
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(),"",false);
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(),"", true, false);
         }
-        StartCoroutine(WaitAndExit(3));
+        StartCoroutine(WaitAndExit(1));
     }
 
     private void AnswerTwoButtonOnClick()
     {
         answersNonInteractable();
         answered = true;
-        if (QuestionDataScript.getCorrectAnswer() == 2)
+        if (QuestionDataScript.getCorrectAnswer() == 1)
         {
             string quesito = QuestionDataScript.getCategory();
+            if (QuestionDataScript.getQuesito())
+            {
+                activateQuesito(quesito);
+            }
             answerTwoButton.GetComponent<Image>().color = Color.green;
             SoundManager.PlayAnswerSound(true);
             addCoin();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", false, false);
         }
         else
         {
             answerTwoButton.GetComponent<Image>().color = Color.red;
             SoundManager.PlayAnswerSound(false);
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(3));
+        StartCoroutine(WaitAndExit(1));
     }
 
     private void AnswerThreeButtonOnClick()
     {
         answersNonInteractable();
         answered = true;
-        if (QuestionDataScript.getCorrectAnswer() == 3)
+        if (QuestionDataScript.getCorrectAnswer() == 2)
         {
             string quesito = QuestionDataScript.getCategory();
+            Debug.Log("GETQUESITO" + QuestionDataScript.getQuesito());
+            if (QuestionDataScript.getQuesito())
+            {
+                activateQuesito(quesito);
+            }
             answerThreeButton.GetComponent<Image>().color = Color.green;
             SoundManager.PlayAnswerSound(true);
             addCoin();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", false, false);
         }
         else
         {
             answerThreeButton.GetComponent<Image>().color = Color.red;
             SoundManager.PlayAnswerSound(false);
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(3));
+        StartCoroutine(WaitAndExit(1));
     }
 
     private void AnswerFourButtonOnClick()
     {
         answersNonInteractable();
         answered = true;
-        if (QuestionDataScript.getCorrectAnswer() == 4)
+        if (QuestionDataScript.getCorrectAnswer() == 3)
         {
             string quesito = QuestionDataScript.getCategory();
+            if (QuestionDataScript.getQuesito())
+            {
+                activateQuesito(quesito);
+            }
             answerFourButton.GetComponent<Image>().color = Color.green;
             SoundManager.PlayAnswerSound(true);
             addCoin();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", false, false);
         }
         else
         {
             answerFourButton.GetComponent<Image>().color = Color.red;
             SoundManager.PlayAnswerSound(false);
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(3));
+        StartCoroutine(WaitAndExit(1));
+    }
+
+    private void activateQuesito(string categoria)
+    {
+        string[] categories = { "Cultura General", "Deportes", "Geografia", "Ciencias", "Entretenimiento", "Historia" };
+        
+        int idx = Array.FindIndex(categories, (c) => { return c.Equals(categoria); });
+        myPlayer.GetComponentsInChildren<Image>(true)[3 + idx].gameObject.SetActive(true);
+
+        Debug.Log("ACTIVATEQUESITO" + categoria + " | " + idx);
     }
 
     private void addCoin()
     {
-        StartCoroutine(AddCoinRequest(UserDataScript.getInfo("token")));
+        if(!UserDataScript.getInfo("username").StartsWith("Guest_"))
+        {
+            StartCoroutine(AddCoinRequest(UserDataScript.getInfo("token")));
+        }
+        
     }
 
     private void answersNonInteractable()
@@ -182,7 +214,7 @@ public class QuestionBehaviourScript : MonoBehaviour
     IEnumerator WaitAndExit(int time)
     {
         //yield on a new YieldInstruction that waits for 5 seconds.
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(time);
         
         SceneManager.UnloadSceneAsync("Question Scene");
     }

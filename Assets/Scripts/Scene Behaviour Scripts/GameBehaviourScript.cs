@@ -142,7 +142,7 @@ public class GameBehaviourScript : MonoBehaviour
     private void setTokenInPosition(GameObject token, int position)
     {
         //¿TODO ANIMATION y MULTIPOSICION?
-        Debug.Log("BoardButton (" + position + ")");
+        //Debug.Log("BoardButton (" + position + ")");
         Transform c = BoardButtons.transform;
         Transform a = c.Find("BoardButton (" + position + ")");
         Transform b = token.transform;
@@ -166,7 +166,7 @@ public class GameBehaviourScript : MonoBehaviour
         {
             // A quién le toca jugar
             // data = (string)
-            Debug.Log("turno " + data);
+            //Debug.Log("turno " + data);
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(turno((string)data)));
         });
         SocketioHandler.AddHandler("jugada", (data) =>
@@ -192,7 +192,8 @@ public class GameBehaviourScript : MonoBehaviour
             //      usuario: (string),
             //      msg: (string)
             // }
-            Debug.Log("Se lanza el evento de chat");
+
+            //Debug.Log("Se lanza el evento de chat");
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(chat((JObject)data)));
         });
         SocketioHandler.AddHandler("jugadorSale", (data) =>
@@ -228,7 +229,7 @@ public class GameBehaviourScript : MonoBehaviour
             string nombre = (string)tmp.Value;
 
             tmp = (JValue)jugadorJO.Property("casilla").Value;
-            Debug.Log(tmp.Value.GetType());
+            //Debug.Log(tmp.Value.GetType());
             long posLong = (long)tmp.Value;
             int posicion = unchecked((int)posLong);
 
@@ -247,7 +248,7 @@ public class GameBehaviourScript : MonoBehaviour
             foreach(JToken q in quesitosJA)
             {
                 string queso = (string)((JValue)q).Value;
-                Debug.Log(queso);
+                //Debug.Log(queso);
                 quesitos.Add(queso);
             }
 
@@ -327,7 +328,12 @@ public class GameBehaviourScript : MonoBehaviour
         tmp = (JValue)images.Property("ficha").Value;
         string ficha = (string)tmp.Value;
 
-        //TODO implementar
+        checkColorPlayername(Player1, user, "reconexion");
+        checkColorPlayername(Player2, user, "reconexion");
+        checkColorPlayername(Player3, user, "reconexion");
+        checkColorPlayername(Player4, user, "reconexion");
+        checkColorPlayername(Player5, user, "reconexion");
+        checkColorPlayername(Player6, user, "reconexion");
         yield return null;
     }
 
@@ -354,11 +360,11 @@ public class GameBehaviourScript : MonoBehaviour
         {
             try
             {
-                Debug.Log("Enters here - turno");
+                //Debug.Log("Enters here - turno");
                 DiceGO.SetActive(true);
                 Dice.interactable = true;
                 DiceAnimation.Play(); //Lanzar animación
-                Debug.Log("Exits - turno");
+                //Debug.Log("Exits - turno");
             }
             catch (Exception e)
             {
@@ -372,7 +378,7 @@ public class GameBehaviourScript : MonoBehaviour
     // Función de pulsar el dado
     void useDice()
     {
-        Debug.Log("Enters here - useDice");
+        //Debug.Log("Enters here - useDice");
         Dice.interactable = false;
         diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
         SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => {
@@ -400,13 +406,14 @@ public class GameBehaviourScript : MonoBehaviour
                 //          categoria: <string>,
                 //          pregunta: <string>,
                 //          resp_c: <string>,
-                //          resp_inc: <Array<string>>,
+                //          resps_inc: <Array<string>>,
                 //          _id: <string>,
                 //      }
                 //  }
                 JObject tmp = (JObject)j;
                 JObject casillaJO = (JObject)tmp.Property("casilla").Value;
                 JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
+                //Debug.Log(preguntaJO);
 
                 int casilla = (int)casillaJO.Property("num").Value;
                 string tipo = (string)casillaJO.Property("tipo").Value;
@@ -420,10 +427,10 @@ public class GameBehaviourScript : MonoBehaviour
                 }
                 else
                 {
-                    string categoria = (string)casillaJO.Property("categoria").Value;
-                    string question = (string)casillaJO.Property("pregunta").Value;
-                    string resp_c = (string)casillaJO.Property("resp_c").Value;
-                    JArray resp_incJA = (JArray)casillaJO.Property("resp_inc").Value;
+                    string categoria = (string)preguntaJO.Property("categoria").Value;
+                    string question = (string)preguntaJO.Property("pregunta").Value;
+                    string resp_c = (string)preguntaJO.Property("resp_c").Value;
+                    JArray resp_incJA = (JArray)preguntaJO.Property("resps_inc").Value;
                     List<string> resp_inc = new List<string>();
                     foreach(JToken r in resp_incJA)
                     {
@@ -470,6 +477,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
+
     public static void SendJugada(int casilla, string quesito, bool finTurno)
     {
         SocketioHandler.socket.Emit("actualizarJugada",casilla, quesito,finTurno);
@@ -492,7 +500,7 @@ public class GameBehaviourScript : MonoBehaviour
     //Cuando llega un mensaje por el socket
     IEnumerator chat(JObject data)
     {
-        Debug.Log("Nuevo mensaje");
+        //Debug.Log("Nuevo mensaje");
         JValue userJV = (JValue)data.Property("usuario").Value;
         JValue msgJV = (JValue)data.Property("msg").Value;
 
@@ -537,7 +545,7 @@ public class GameBehaviourScript : MonoBehaviour
         switch (func)
         {
             case "turno":
-                Debug.Log("COLOR.TURNO: " + playername.text + jugador);
+                //Debug.Log("COLOR.TURNO: " + playername.text + jugador);
                 if(playername.text == jugador)
                 {
                     playername.color = Color.green;
@@ -547,10 +555,16 @@ public class GameBehaviourScript : MonoBehaviour
                 }
                 break;
             case "desconexion":
-                Debug.Log("COLOR.DESCNXN: " + playername.text + jugador);
+                //Debug.Log("COLOR.DESCNXN: " + playername.text + jugador);
                 if (playername.text == jugador)
                 {
                     playername.color = Color.gray;
+                }
+                break;
+            case "reconexion":
+                if (playername.text == jugador)
+                {
+                    playername.color = Color.white;
                 }
                 break;
             default:

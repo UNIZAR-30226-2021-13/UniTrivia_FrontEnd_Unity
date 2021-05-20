@@ -7,94 +7,184 @@ using UnityEngine.Networking;
 
 public class QuestionBehaviourScript : MonoBehaviour
 {
-    public Text timerText;
     public Text questionText;
+    public Image timerBar;
     public Button answerOneButton;
     public Button answerTwoButton;
     public Button answerThreeButton;
     public Button answerFourButton;
 
+    private float timeQuestion = 60.0f;
+    private bool answered = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        timerText.text = QuestionDataScript.getTimer().ToString();
         questionText.text = QuestionDataScript.getQuestion();
 
         string[] answers = QuestionDataScript.getAnswers();
         answerOneButton.GetComponentInChildren<Text>().text = answers[0];
         answerTwoButton.GetComponentInChildren<Text>().text = answers[1];
-        answerThreeButton.GetComponentInChildren<Text>().text = answers[2];
-        answerFourButton.GetComponentInChildren<Text>().text = answers[3];
 
+        if(answers.Length > 2)
+        {
+            answerThreeButton.GetComponentInChildren<Text>().text = answers[2];
+            if(answers.Length > 3)
+            {
+                answerFourButton.GetComponentInChildren<Text>().text = answers[3];
+            } else
+            {
+                answerFourButton.GetComponentInChildren<Text>().text = "";
+                answerFourButton.interactable = false;
+            }
+        } else
+        {
+            answerThreeButton.GetComponentInChildren<Text>().text = "";
+            answerThreeButton.interactable = false;
+            answerFourButton.GetComponentInChildren<Text>().text = "";
+            answerFourButton.interactable = false;
+        }
+        
         answerOneButton.onClick.AddListener(AnswerOneButtonOnClick);
         answerTwoButton.onClick.AddListener(AnswerTwoButtonOnClick);
         answerThreeButton.onClick.AddListener(AnswerThreeButtonOnClick);
         answerFourButton.onClick.AddListener(AnswerFourButtonOnClick);
     }
 
+    void Update()
+    {
+        if(!answered)
+        {
+            timeQuestion -= Time.deltaTime;
+            timerBar.fillAmount = timeQuestion / 60.0f;
+
+            if (timeQuestion >= 30.0f)
+            {
+                timerBar.color = Color.green;
+            }
+            else if (timeQuestion >= 15.0f)
+            {
+                timerBar.color = Color.yellow;
+            }
+            else if (timeQuestion >= 0.0f)
+            {
+                timerBar.color = Color.red;
+            }
+            else
+            {
+                SoundManager.PlayAnswerSound(false);
+                answersNonInteractable();
+                GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
+                StartCoroutine(WaitAndExit(3));
+            }
+        }
+    }
+
     private void AnswerOneButtonOnClick()
     {
-        if(QuestionDataScript.getCorrectAnswer() == 1)
+        answersNonInteractable();
+        answered = true;
+        if (QuestionDataScript.getCorrectAnswer() == 1)
         {
             string quesito = QuestionDataScript.getCategory();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito()? quesito : "", !QuestionDataScript.getQuesito());
+            answerOneButton.GetComponent<Image>().color = Color.green;
+            SoundManager.PlayAnswerSound(true);
             addCoin();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito()? quesito : "", !QuestionDataScript.getQuesito());
+            
         }
         else
         {
+            answerOneButton.GetComponent<Image>().color = Color.red;
+            SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(),"",false);
         }
-        SceneManager.UnloadSceneAsync("Question Scene");
+        StartCoroutine(WaitAndExit(3));
     }
 
     private void AnswerTwoButtonOnClick()
     {
+        answersNonInteractable();
+        answered = true;
         if (QuestionDataScript.getCorrectAnswer() == 2)
         {
             string quesito = QuestionDataScript.getCategory();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            answerTwoButton.GetComponent<Image>().color = Color.green;
+            SoundManager.PlayAnswerSound(true);
             addCoin();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
         }
         else
         {
+            answerTwoButton.GetComponent<Image>().color = Color.red;
+            SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
         }
-        SceneManager.UnloadSceneAsync("Question Scene");
+        StartCoroutine(WaitAndExit(3));
     }
 
     private void AnswerThreeButtonOnClick()
     {
+        answersNonInteractable();
+        answered = true;
         if (QuestionDataScript.getCorrectAnswer() == 3)
         {
             string quesito = QuestionDataScript.getCategory();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            answerThreeButton.GetComponent<Image>().color = Color.green;
+            SoundManager.PlayAnswerSound(true);
             addCoin();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
         }
         else
         {
+            answerThreeButton.GetComponent<Image>().color = Color.red;
+            SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
         }
-        SceneManager.UnloadSceneAsync("Question Scene");
+        StartCoroutine(WaitAndExit(3));
     }
 
     private void AnswerFourButtonOnClick()
     {
+        answersNonInteractable();
+        answered = true;
         if (QuestionDataScript.getCorrectAnswer() == 4)
         {
             string quesito = QuestionDataScript.getCategory();
-            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
+            answerFourButton.GetComponent<Image>().color = Color.green;
+            SoundManager.PlayAnswerSound(true);
             addCoin();
+            GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), QuestionDataScript.getQuesito() ? quesito : "", !QuestionDataScript.getQuesito());
         }
         else
         {
+            answerFourButton.GetComponent<Image>().color = Color.red;
+            SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", false);
         }
-        SceneManager.UnloadSceneAsync("Question Scene");
+        StartCoroutine(WaitAndExit(3));
     }
 
     private void addCoin()
     {
         StartCoroutine(AddCoinRequest(UserDataScript.getInfo("token")));
+    }
+
+    private void answersNonInteractable()
+    {
+        answerOneButton.interactable = false;
+        answerTwoButton.interactable = false;
+        answerThreeButton.interactable = false;
+        answerFourButton.interactable = false;
+
+    }
+
+    IEnumerator WaitAndExit(int time)
+    {
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(5);
+        
+        SceneManager.UnloadSceneAsync("Question Scene");
     }
 
     //Class for JSON deserializing

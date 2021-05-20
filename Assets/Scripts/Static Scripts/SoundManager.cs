@@ -11,6 +11,8 @@ public static class SoundManager
     private static AudioSource chatAS;
     private static AudioSource diceAS;
     private static AudioSource optionAS;
+    private static AudioSource correctAnswerAS;
+    private static AudioSource incorrectAnswerAS;
 
     public static void Init()
     {
@@ -35,6 +37,12 @@ public static class SoundManager
         //Option
         optionAS = soundManagerGO.AddComponent<AudioSource>();
         optionAS.clip = Resources.Load<AudioClip>("Sounds/option");
+
+        //Answers
+        correctAnswerAS = soundManagerGO.AddComponent<AudioSource>();
+        correctAnswerAS.clip = Resources.Load<AudioClip>("Sounds/acierto");
+        incorrectAnswerAS = soundManagerGO.AddComponent<AudioSource>();
+        incorrectAnswerAS.clip = Resources.Load<AudioClip>("Sounds/fallo");
 
         UnityEngine.Object.DontDestroyOnLoad(soundManagerGO);
     }
@@ -84,5 +92,21 @@ public static class SoundManager
         {
             optionAS.Play();
         }
+    }
+
+    public static void PlayAnswerSound(bool correctAnswer)
+    {
+        if(PlayerPrefs.GetInt("soundActive") == 1)
+        {
+            if (correctAnswer)
+            {
+                correctAnswerAS.Play();
+            }
+            else
+            {
+                incorrectAnswerAS.Play();
+            }
+        }
+        
     }
 }

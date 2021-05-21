@@ -279,6 +279,7 @@ public class GameBehaviourScript : MonoBehaviour
     IEnumerator jugada(JObject data)
     {
         Debug.Log("JUGADA");
+        Debug.Log(data);
         JValue userJV = (JValue)data.Property("user").Value;
         JValue casillaJV = (JValue)data.Property("casilla").Value;
         JValue quesJV = (JValue)data.Property("ques").Value;
@@ -444,7 +445,10 @@ public class GameBehaviourScript : MonoBehaviour
                         setTokenInPosition(myToken, casilla);
                         SendJugada(casilla, "", false, true);
                         StartCoroutine(turno(UserDataScript.getInfo("username")));
-                        BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.RemoveAllListeners();
+                        foreach(Button b in BoardButtons.GetComponentsInChildren<Button>(true))
+                        {
+                            b.onClick.RemoveAllListeners();
+                        }
                     });
                 }
                 else
@@ -466,9 +470,11 @@ public class GameBehaviourScript : MonoBehaviour
                         hideBoardButtons();
                         setTokenInPosition(myToken, casilla);
                         newQuestion(tipo.Equals("Quesito"), categoria, question, resp_c, resp_inc, casilla);
-                        button.onClick.RemoveAllListeners();
+                        foreach (Button b in BoardButtons.GetComponentsInChildren<Button>(true))
+                        {
+                            b.onClick.RemoveAllListeners();
+                        }
                     });
-                    //button.onClick.RemoveListener(taskListener);
                 }
 
                 BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
@@ -518,7 +524,7 @@ public class GameBehaviourScript : MonoBehaviour
     {
         Debug.Log("SendJugada: " + casilla + quesito + finTurno + esDado);
         JObject args = new JObject(new JProperty("casilla", casilla), new JProperty("quesito", quesito), new JProperty("finTurno", finTurno));
-        SocketioHandler.socket.Emit("actualizarJugada", (trash) => { return; }, args);
+        SocketioHandler.socket.Emit("actualizarJugada", (trash) => { Debug.Log("actualizarJugada = " + trash); return; }, args);
 
         if(!finTurno && !esDado)
         {

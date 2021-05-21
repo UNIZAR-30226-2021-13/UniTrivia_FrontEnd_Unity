@@ -95,6 +95,7 @@ public class LobbyBehaviourScript : MonoBehaviour
             {
                 GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single));
             }
+            SocketioHandler.End();
         },handlers);
 
         StartButton.onClick.AddListener(StartButtonOnClick);

@@ -213,10 +213,12 @@ public class QuestionBehaviourScript : MonoBehaviour
 
     IEnumerator WaitAndExit(int time)
     {
+        Debug.Log("Enters here");
         //yield on a new YieldInstruction that waits for 5 seconds.
         yield return new WaitForSeconds(time);
-        
+
         SceneManager.UnloadSceneAsync("Question Scene");
+        Debug.Log("Question Scene Closed");
     }
 
     //Class for JSON deserializing

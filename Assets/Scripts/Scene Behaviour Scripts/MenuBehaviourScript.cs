@@ -18,7 +18,7 @@ public class MenuBehaviourScript : MonoBehaviour
     //InfoMenu
     public Text Coins;
     public Text Username;
-    public Image userAvatar;
+    public Image UserAvatar;
 
     // Canvas id to join game
     public Canvas JoinGameCanvas;
@@ -49,7 +49,7 @@ public class MenuBehaviourScript : MonoBehaviour
             InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
         });
 
-        Coins.text = "" + UserDataScript.getCoins();
+        
         Username.text = UserDataScript.getInfo("username");
 
         if (UserDataScript.getInfo("username").StartsWith("Guest_"))
@@ -62,6 +62,11 @@ public class MenuBehaviourScript : MonoBehaviour
             LoginButton.gameObject.SetActive(false);
             StartCoroutine(checkUserReconnection());
         }
+    }
+    void Update()
+    {
+        UserAvatar.sprite = Resources.Load<Sprite>("Avatar/" + UserDataScript.getInfo("avatar"));
+        Coins.text = "" + UserDataScript.getCoins();
     }
 
     private IEnumerator checkUserReconnection()

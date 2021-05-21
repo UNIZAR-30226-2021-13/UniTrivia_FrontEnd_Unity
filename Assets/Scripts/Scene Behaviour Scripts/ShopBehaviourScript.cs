@@ -29,12 +29,12 @@ public class ShopBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LeftButton.onClick.AddListener(LeftButtonOnClick);
-        RightButton.onClick.AddListener(RightButtonOnClick);
-
         AvatarShopButton.onClick.AddListener(AvatarShopButtonOnClick);
         BannerShopButton.onClick.AddListener(BannerShopButtonOnClick);
         TokenShopButton.onClick.AddListener(TokenShopButtonOnClick);
+
+        LeftButton.onClick.AddListener(LeftButtonOnClick);
+        RightButton.onClick.AddListener(RightButtonOnClick);
 
         BuyButton.onClick.AddListener(BuyButtonOnClick);
         ActiveButton.onClick.AddListener(ActiveButtonOnClick);
@@ -117,7 +117,7 @@ public class ShopBehaviourScript : MonoBehaviour
 
     void ReturnButtonOnClick()
     {
-        SceneManager.LoadScene("Profile Scene", LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync("Shop Scene");
     }
 
     void BuyButtonOnClick()
@@ -141,13 +141,13 @@ public class ShopBehaviourScript : MonoBehaviour
 
             if (UserDataScript.getInfo(objectName).Equals(objectName + index))
             {
-                ActiveButton.interactable = true;
-                ActiveButton.GetComponentInChildren<Text>().text = "ACTIVAR";
+                ActiveButton.interactable = false;
+                ActiveButton.GetComponentInChildren<Text>().text = "ACTIVADO";
             }
             else
             {
-                ActiveButton.interactable = false;
-                ActiveButton.GetComponentInChildren<Text>().text = "ACTIVADO";
+                ActiveButton.interactable = true;
+                ActiveButton.GetComponentInChildren<Text>().text = "ACTIVAR";
             }
             
         } else
@@ -155,12 +155,13 @@ public class ShopBehaviourScript : MonoBehaviour
             if(UserDataScript.getCoins() < 100)
             {
                 BuyButton.interactable = false;
-                BuyButton.GetComponentInChildren<Text>().text = "COMPRAR | 100c";
+                BuyButton.GetComponentInChildren<Text>().text = "COMPRAR|100c";
                 BuyButton.GetComponentInChildren<Text>().color = Color.red;
             } else
             {
                 BuyButton.interactable = true;
-                BuyButton.GetComponentInChildren<Text>().text = "COMPRAR | 100c";
+                BuyButton.GetComponentInChildren<Text>().text = "COMPRAR|100c";
+                BuyButton.GetComponentInChildren<Text>().color = Color.white;
             }
             
             ActiveButton.interactable = false;
@@ -186,7 +187,7 @@ public class ShopBehaviourScript : MonoBehaviour
     {
         UnityWebRequest requestBuy = null;
 
-        requestBuy = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/tienda/comprar");
+        requestBuy = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/tienda/comprar", "");
         requestBuy.SetRequestHeader("nombre", item);
         requestBuy.SetRequestHeader("jwt", UserDataScript.getInfo("token"));
         yield return requestBuy.SendWebRequest();
@@ -213,26 +214,29 @@ public class ShopBehaviourScript : MonoBehaviour
         else
         {
             Debug.Log("EXITO ACTIVESHOP:" + requestBuy.downloadHandler.text);
+            UserDataScript.addItem(item);
+            UserDataScript.removeCoins(100);
+            checkActualItem();
         }
     }
 
-        //Request to the server for Login
-        private IEnumerator ActiveRequest(string item, string type)
+    //Request to the server for Login
+    private IEnumerator ActiveRequest(string item, string type)
     {
         UnityWebRequest requestActive = null;
 
         switch (type)
         {
             case "avatar":
-                requestActive = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/profile/modify/avatar");
+                requestActive = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/profile/modify/avatar", "");
                 requestActive.SetRequestHeader("idavatar", item);
                 break;
             case "banner":
-                requestActive = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/profile/modify/banner");
+                requestActive = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/profile/modify/banner", "");
                 requestActive.SetRequestHeader("idbanner", item);
                 break;
             case "ficha":
-                requestActive = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/profile/modify/formFicha");
+                requestActive = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/profile/modify/formFicha", "");
                 requestActive.SetRequestHeader("idformficha", item);
                 break;
             default:
@@ -242,7 +246,7 @@ public class ShopBehaviourScript : MonoBehaviour
                 break;
         }
         
-        if(requestActive == null)
+        if(requestActive != null)
         {
             requestActive.SetRequestHeader("jwt", UserDataScript.getInfo("token"));
             yield return requestActive.SendWebRequest();
@@ -269,7 +273,32 @@ public class ShopBehaviourScript : MonoBehaviour
             else
             {
                 Debug.Log("EXITO ACTIVESHOP:" + requestActive.downloadHandler.text);
+
+                switch (type)
+                {
+                    case "avatar":
+                        UserDataScript.setInfo("avatar", item);
+                        break;
+                    case "banner":
+                        UserDataScript.setInfo("banner", item);
+                        break;
+                    case "ficha":
+                        UserDataScript.setInfo("ficha", item);
+                        break;
+                    default:
+                        ErrorDataScript.setErrorText("Error. Vuelve a intentarlo.");
+                        ErrorDataScript.setButtonMode(1);
+                        SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
+                        break;
+                }
+
+                checkActualItem();
             }
+        } else
+        {
+            ErrorDataScript.setErrorText("Objeto no reconocido");
+            ErrorDataScript.setButtonMode(1);
+            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
         }
     }
 

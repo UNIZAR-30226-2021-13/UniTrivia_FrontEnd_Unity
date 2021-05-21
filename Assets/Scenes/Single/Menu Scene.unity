@@ -3338,7 +3338,7 @@ MonoBehaviour:
   ReconnectButton: {fileID: 1243073333}
   Coins: {fileID: 571124619}
   Username: {fileID: 369015748}
-  userAvatar: {fileID: 1144466680}
+  UserAvatar: {fileID: 1144466680}
   JoinGameCanvas: {fileID: 278420117}
   InputIDButton: {fileID: 710852242}
   IdentificadorInput: {fileID: 915878692}

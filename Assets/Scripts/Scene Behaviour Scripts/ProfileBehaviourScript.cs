@@ -13,6 +13,7 @@ public class ProfileBehaviourScript : MonoBehaviour
 
     //InfoMenu Section
     public Text Coins;
+    public Text Username;
     public Image BannerImage;
     public Image AvatarImage;
     public Image FichaImage;
@@ -53,16 +54,18 @@ public class ProfileBehaviourScript : MonoBehaviour
             + "Partidas jugadas: " + UserDataScript.getPlayed() + "\n"
             + "Partidas ganadas:" + UserDataScript.getWins() + "\n";
 
-        Coins.text = "" + UserDataScript.getCoins();
-        BannerImage.sprite = Resources.Load<Sprite>("Banner/" + UserDataScript.getInfo("banner"));
-        AvatarImage.sprite = Resources.Load<Sprite>("Avatar/" + UserDataScript.getInfo("avatar"));
-        FichaImage.sprite = Resources.Load<Sprite>("Token/" + UserDataScript.getInfo("ficha"));
+        Username.text = UserDataScript.getInfo("username");
 
         ManageCanvas.SetActive(false);
     }
 
     void Update()
     {
+        Coins.text = "" + UserDataScript.getCoins();
+        BannerImage.sprite = Resources.Load<Sprite>("Banner/" + UserDataScript.getInfo("banner"));
+        AvatarImage.sprite = Resources.Load<Sprite>("Avatar/" + UserDataScript.getInfo("avatar"));
+        FichaImage.sprite = Resources.Load<Sprite>("Token/" + UserDataScript.getInfo("ficha"));
+
         if (!string.IsNullOrEmpty(RepasswordInput.text) & RepasswordInput.text != PasswordInput.text)
         {
             RepasswordImage.enabled = true;
@@ -96,7 +99,7 @@ public class ProfileBehaviourScript : MonoBehaviour
 
     void ChangePasswordButtonOnClick()
     {
-        StartCoroutine(ChangePasswordRequest(PlayerPrefs.GetString("Username"), PlayerPrefs.GetString("Answer"), PasswordInput.text));
+        StartCoroutine(ChangePasswordRequest(UserDataScript.getInfo("username"), UserDataScript.getInfo("answer"), PasswordInput.text));
     }
 
     void DeleteProfileButtonOnClick()
@@ -106,7 +109,7 @@ public class ProfileBehaviourScript : MonoBehaviour
 
         //ConfirmDataScript.setConfirmText("¿Estas seguro de eliminar tu cuenta?");
         //SceneManager.LoadScene("Confirm Scene", LoadSceneMode.Additive);
-        StartCoroutine(DeleteProfileRequest(PlayerPrefs.GetString("Token")));
+        StartCoroutine(DeleteProfileRequest(UserDataScript.getInfo("token")));
     }
     /*
     void ConfirmDeleteProfileButtonOnClick()
@@ -168,7 +171,10 @@ public class ProfileBehaviourScript : MonoBehaviour
         else
         {
             Debug.Log("EXITO LOGIN:" + requestChangePassword.downloadHandler.text);
-            SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+            //SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+            ErrorDataScript.setErrorText("Contraseña cambiada");
+            ErrorDataScript.setButtonMode(1);
+            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
         }
     }
 

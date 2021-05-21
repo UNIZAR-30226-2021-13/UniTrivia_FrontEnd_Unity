@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 public class ShopBehaviourScript : MonoBehaviour
 {
+    public Text playerCoins;
     public Button AvatarShopButton;
     public Button BannerShopButton;
     public Button TokenShopButton;
@@ -15,23 +16,41 @@ public class ShopBehaviourScript : MonoBehaviour
     public Button RightButton;
     public Button BuyButton;
     public Button ActiveButton;
+    public Button ReturnButton;
 
     private int index = 0;
     private int maxIndex = 5;
     private string path = "Avatar/";
     private string objectName = "avatar";
 
+    //Temporal
+    public Button MasMonedas;
+
     // Start is called before the first frame update
     void Start()
     {
         LeftButton.onClick.AddListener(LeftButtonOnClick);
         RightButton.onClick.AddListener(RightButtonOnClick);
+
         AvatarShopButton.onClick.AddListener(AvatarShopButtonOnClick);
         BannerShopButton.onClick.AddListener(BannerShopButtonOnClick);
         TokenShopButton.onClick.AddListener(TokenShopButtonOnClick);
 
+        BuyButton.onClick.AddListener(BuyButtonOnClick);
+        ActiveButton.onClick.AddListener(ActiveButtonOnClick);
+
+        ReturnButton.onClick.AddListener(ReturnButtonOnClick);
+
         ObjectImage.sprite = Resources.Load<Sprite>(path + objectName + index);
         checkActualItem();
+
+        //Temporal
+        MasMonedas.onClick.AddListener(addCoin);
+    }
+
+    void Update()
+    {
+        playerCoins.text = "" + UserDataScript.getCoins();
     }
 
     void AvatarShopButtonOnClick()
@@ -96,9 +115,15 @@ public class ShopBehaviourScript : MonoBehaviour
         checkActualItem();
     }
 
+    void ReturnButtonOnClick()
+    {
+        SceneManager.LoadScene("Profile Scene", LoadSceneMode.Single);
+    }
+
     void BuyButtonOnClick()
     {
         SoundManager.PlayButtonSound();
+        StartCoroutine(BuyRequest(objectName + index));
     }
 
     void ActiveButtonOnClick()
@@ -188,10 +213,6 @@ public class ShopBehaviourScript : MonoBehaviour
         else
         {
             Debug.Log("EXITO ACTIVESHOP:" + requestBuy.downloadHandler.text);
-
-            //Obtenemos la información del usuario
-
-            //Añadir a los objetos del usuario
         }
     }
 
@@ -248,27 +269,51 @@ public class ShopBehaviourScript : MonoBehaviour
             else
             {
                 Debug.Log("EXITO ACTIVESHOP:" + requestActive.downloadHandler.text);
-
-                //Obtenemos la información del usuario
-
-                switch (type)
-                {
-                    case "avatar"://avatar
-                        UserDataScript.setInfo("avatar", item);
-                        break;
-                    case "banner"://banner
-                        UserDataScript.setInfo("banner", item);
-                        break;
-                    case "ficha"://ficha
-                        UserDataScript.setInfo("ficha", item);
-                        break;
-                    default:
-                        ErrorDataScript.setErrorText("Error inesperado");
-                        ErrorDataScript.setButtonMode(1);
-                        SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
-                        break;
-                }
             }
+        }
+    }
+
+    //Temporal
+    private void addCoin()
+    {
+        if (!UserDataScript.getInfo("username").StartsWith("Guest_"))
+        {
+            StartCoroutine(AddCoinRequest(UserDataScript.getInfo("token"), UnityEngine.Random.Range(1, 21)));
+        }
+
+    }
+
+    private IEnumerator AddCoinRequest(string token, int cantidad)
+    {
+        UnityWebRequest addCoinRequest = UnityWebRequest.Post("https://unitrivia.herokuapp.com/api/tienda/insertarMonedas", "");
+
+        addCoinRequest.SetRequestHeader("jwt", token);
+        addCoinRequest.SetRequestHeader("cantidad", "" + cantidad);
+        yield return addCoinRequest.SendWebRequest();
+        Debug.Log("ResponseCode: " + addCoinRequest.responseCode);
+
+        if (addCoinRequest.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log("ERROR CONNECTION:" + addCoinRequest.result);
+
+            ErrorDataScript.setErrorText("Error de conexión");
+            ErrorDataScript.setButtonMode(1);
+            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
+        }
+        else if (addCoinRequest.responseCode != 200)
+        {
+            Debug.Log("ERROR ADDCOIN:" + addCoinRequest.downloadHandler.text);
+            ErrorReturn result = ErrorReturn.CreateFromJSON(addCoinRequest.downloadHandler.text);
+
+            ErrorDataScript.setErrorText(result.message);
+            ErrorDataScript.setButtonMode(1);
+            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
+        }
+        else
+        {
+            Debug.Log("EXITO ADDCOIN:" + addCoinRequest.downloadHandler.text);
+            UserDataScript.addCoins(cantidad);
+            Debug.Log("Insertada 1 moneda");
         }
     }
 }

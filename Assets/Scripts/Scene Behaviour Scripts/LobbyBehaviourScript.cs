@@ -16,10 +16,6 @@ public class LobbyBehaviourScript : MonoBehaviour
     public Button StartButton;
     public Button CancelButton;
 
-    public Canvas ErrorCanvas;
-    public Text ErrorText;
-    public Button ErrorButton;
-
     private int jugadores = 0;
 
     public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
@@ -50,7 +46,6 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     // Start is called before the first frame update
     void Start(){
-        ErrorCanvas.enabled = false;
 
         setLider(false);
         PlayersDataScript.turno = "";
@@ -104,10 +99,6 @@ public class LobbyBehaviourScript : MonoBehaviour
 
         StartButton.onClick.AddListener(StartButtonOnClick);
         CancelButton.onClick.AddListener(CancelButtonOnClick);
-
-        ErrorButton.onClick.AddListener(() => {
-            ErrorCanvas.enabled = false;
-        });
     }
 
     IEnumerator cambioLider(JObject data)
@@ -285,8 +276,9 @@ public class LobbyBehaviourScript : MonoBehaviour
         }
         else //Ha habido un error
         {
-            ErrorText.text = info;
-            ErrorCanvas.enabled = true;
+            ErrorDataScript.setErrorText(info);
+            ErrorDataScript.setButtonMode(1);
+            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
         }
     }
 

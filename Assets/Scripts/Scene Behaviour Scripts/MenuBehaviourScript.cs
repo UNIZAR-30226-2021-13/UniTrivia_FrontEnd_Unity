@@ -24,6 +24,7 @@ public class MenuBehaviourScript : MonoBehaviour
     public Canvas JoinGameCanvas;
     public Button InputIDButton;
     public InputField IdentificadorInput;
+    public Button ReturnButton;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,9 @@ public class MenuBehaviourScript : MonoBehaviour
         JoinGameButton.onClick.AddListener(JoinGameOnClick);
         CreateGameButton.onClick.AddListener(CreateGameOnClick);
         ReconnectButton.onClick.AddListener(ReconnectOnClick);
+
+        InputIDButton.onClick.AddListener(InputIDButtonOnClick);
+        ReturnButton.onClick.AddListener(ReturnButtonOnClick);
 
         ProfileButton.onClick.AddListener(ProfileButtonOnClick);
         LoginButton.onClick.AddListener(LoginButtonOnClick);
@@ -79,7 +83,7 @@ public class MenuBehaviourScript : MonoBehaviour
     {
         SoundManager.PlayButtonSound();
         JoinGameCanvas.enabled = true;
-        InputIDButton.onClick.AddListener(InputIDButtonOnClick);
+        
     }
 
     void RandomGameOnClick()
@@ -125,6 +129,11 @@ public class MenuBehaviourScript : MonoBehaviour
         SceneManager.LoadScene("Options Scene", LoadSceneMode.Single);
     }
 
+    void ReturnButtonOnClick()
+    {
+        JoinGameCanvas.enabled = false;
+    }
+
     void InputIDButtonOnClick()
     {
         SoundManager.PlayButtonSound();
@@ -132,6 +141,5 @@ public class MenuBehaviourScript : MonoBehaviour
         args.Add("sala", IdentificadorInput.text);
         SocketioHandler.Init("unirseSala", args);
         SceneManager.LoadScene("Lobby Scene", LoadSceneMode.Single);
-
     }
 }

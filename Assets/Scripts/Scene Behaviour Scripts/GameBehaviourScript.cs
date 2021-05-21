@@ -460,11 +460,13 @@ public class GameBehaviourScript : MonoBehaviour
                         resp_inc.Add((string)r);
                     }
 
-                    BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.AddListener(()=> {
+                    Button button = BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>();
+                    button.onClick.AddListener(()=> {
                         hideBoardButtons();
                         setTokenInPosition(myToken, casilla);
                         newQuestion(tipo.Equals("Quesito"), categoria, question, resp_c, resp_inc, casilla);
                     });
+                    //button.onClick.RemoveListener(taskListener);
                 }
 
                 BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().interactable = true;
@@ -490,6 +492,11 @@ public class GameBehaviourScript : MonoBehaviour
         }
     }
 
+    private void deleteAllListenersBoard()
+    {
+
+    }
+
     //Genera la pregunta de la casilla
     private void newQuestion(bool quesito, string category, string question, string correct, List<string> incorrects, int position)
     {
@@ -500,6 +507,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         QuestionDataScript.setQuestion(question, incorrects, idCorrect, quesito, category, position, () => StartCoroutine(turno((UserDataScript.getInfo("username")))));
 
+        Debug.Log("...ABRO ESCENA QUESTION...");
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -456,13 +457,13 @@ public class GameBehaviourScript : MonoBehaviour
                     JObject preguntaJO = (JObject)tmp.Property("pregunta").Value;
 
                     string categoria = (string)preguntaJO.Property("categoria").Value;
-                    string question = (string)preguntaJO.Property("pregunta").Value;
-                    string resp_c = (string)preguntaJO.Property("resp_c").Value;
+                    string question = WebUtility.HtmlDecode((string)preguntaJO.Property("pregunta").Value);
+                    string resp_c = WebUtility.HtmlDecode((string)preguntaJO.Property("resp_c").Value);
                     JArray resp_incJA = (JArray)preguntaJO.Property("resps_inc").Value;
                     List<string> resp_inc = new List<string>();
                     foreach(JToken r in resp_incJA)
                     {
-                        resp_inc.Add((string)r);
+                        resp_inc.Add(WebUtility.HtmlDecode((string)r));
                     }
 
                     Button button = BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>();

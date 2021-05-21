@@ -444,6 +444,7 @@ public class GameBehaviourScript : MonoBehaviour
                         setTokenInPosition(myToken, casilla);
                         SendJugada(casilla, "", false, true);
                         StartCoroutine(turno(UserDataScript.getInfo("username")));
+                        BoardButtons.transform.Find("BoardButton (" + casilla + ")").GetComponent<Button>().onClick.RemoveAllListeners();
                     });
                 }
                 else
@@ -465,6 +466,7 @@ public class GameBehaviourScript : MonoBehaviour
                         hideBoardButtons();
                         setTokenInPosition(myToken, casilla);
                         newQuestion(tipo.Equals("Quesito"), categoria, question, resp_c, resp_inc, casilla);
+                        button.onClick.RemoveAllListeners();
                     });
                     //button.onClick.RemoveListener(taskListener);
                 }

@@ -15,6 +15,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     public Text WaitingLeader;
     public Button StartButton;
     public Button CancelButton;
+    public GameObject LoadingSprite;
 
     private int jugadores = 0;
 
@@ -199,7 +200,7 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     IEnumerator setIdSala(String id)
     {
-
+        LoadingSprite.SetActive(false);
         idSala.text = id;
         yield return null;
     }

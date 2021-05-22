@@ -214,6 +214,7 @@ public class ShopBehaviourScript : MonoBehaviour
         else
         {
             Debug.Log("EXITO ACTIVESHOP:" + requestBuy.downloadHandler.text);
+            SoundManager.PlayBuySound();
             UserDataScript.addItem(item);
             UserDataScript.removeCoins(100);
             checkActualItem();

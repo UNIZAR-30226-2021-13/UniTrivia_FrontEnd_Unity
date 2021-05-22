@@ -13,6 +13,7 @@ public static class SoundManager
     private static AudioSource optionAS;
     private static AudioSource correctAnswerAS;
     private static AudioSource incorrectAnswerAS;
+    private static AudioSource buyItemAS;
 
     public static void Init()
     {
@@ -44,6 +45,10 @@ public static class SoundManager
         incorrectAnswerAS = soundManagerGO.AddComponent<AudioSource>();
         incorrectAnswerAS.clip = Resources.Load<AudioClip>("Sounds/fallo");
 
+        //Option
+        buyItemAS = soundManagerGO.AddComponent<AudioSource>();
+        buyItemAS.clip = Resources.Load<AudioClip>("Sounds/compraBien");
+
         UnityEngine.Object.DontDestroyOnLoad(soundManagerGO);
     }
 
@@ -66,6 +71,7 @@ public static class SoundManager
     {
         if (PlayerPrefs.GetInt("soundActive") == 1)
         {
+            buttonAS.volume = 0.7f;
             buttonAS.Play();
         }
     }
@@ -74,6 +80,7 @@ public static class SoundManager
     {
         if (PlayerPrefs.GetInt("soundActive") == 1)
         {
+            chatAS.volume = 0.7f;
             chatAS.Play();
         }
     }
@@ -82,6 +89,7 @@ public static class SoundManager
     {
         if (PlayerPrefs.GetInt("soundActive") == 1)
         {
+            diceAS.volume = 0.7f;
             diceAS.Play();
         }
     }
@@ -90,7 +98,17 @@ public static class SoundManager
     {
         if (PlayerPrefs.GetInt("soundActive") == 1)
         {
+            optionAS.volume = 0.7f;
             optionAS.Play();
+        }
+    }
+
+    public static void PlayBuySound()
+    {
+        if (PlayerPrefs.GetInt("soundActive") == 1)
+        {
+            buyItemAS.volume = 0.7f;
+            buyItemAS.Play();
         }
     }
 

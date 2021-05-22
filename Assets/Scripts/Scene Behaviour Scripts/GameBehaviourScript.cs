@@ -45,7 +45,10 @@ public class GameBehaviourScript : MonoBehaviour
     public GameObject endgame;
     public Image endgameImage;
     public InputField winner;
-    public Button returnButton;
+    public Button ReturnButton;
+
+    //SALIR
+    public Button ExitButton;
 
     private GameObject[] Players;
     private GameObject[] Tokens;
@@ -73,7 +76,8 @@ public class GameBehaviourScript : MonoBehaviour
         try
         {
             endgame.SetActive(false);
-            returnButton.onClick.AddListener(ReturnButtonOnClick);
+            ReturnButton.onClick.AddListener(ReturnButtonOnClick);
+            ExitButton.onClick.AddListener(ReturnButtonOnClick);
 
             //Dado
             DiceGO.SetActive(false);
@@ -402,6 +406,7 @@ public class GameBehaviourScript : MonoBehaviour
         //Debug.Log("Enters here - useDice");
         Dice.interactable = false;
         diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
+        SoundManager.PlayDiceSound();
         SocketioHandler.socket.Emit("posiblesJugadas", (jugadas) => {
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(posiblesJugadasCallback((JObject)jugadas))); 
         }, diceNumber);
@@ -559,6 +564,7 @@ public class GameBehaviourScript : MonoBehaviour
 
         chatLog.text = chatLog.text + user + ":  " + msg + "\n";
         aviso.enabled = !ChatPannel.enabled;
+        SoundManager.PlayChatSound();
 
         yield return null;
     }

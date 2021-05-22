@@ -156,7 +156,10 @@ public class RecoverBehaviourScript : MonoBehaviour
         else
         {
             Debug.Log("EXITO LOGIN:" + requestChangePassword.downloadHandler.text);
-            SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+
+            SuccessDataScript.setSuccessText("Cambio realizado correctamente!");
+            SuccessDataScript.setReturnScene("Login Scene");
+            SceneManager.LoadScene("Success Scene", LoadSceneMode.Additive);
         }
     }
 }

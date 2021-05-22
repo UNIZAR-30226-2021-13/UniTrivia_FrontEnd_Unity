@@ -172,9 +172,9 @@ public class ProfileBehaviourScript : MonoBehaviour
         {
             Debug.Log("EXITO LOGIN:" + requestChangePassword.downloadHandler.text);
             //SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
-            ErrorDataScript.setErrorText("Contraseña cambiada");
-            ErrorDataScript.setButtonMode(1);
-            SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
+            SuccessDataScript.setSuccessText("Cambio realizado correctamente!");
+            SuccessDataScript.setReturnScene("Login Scene");
+            SceneManager.LoadScene("Success Scene", LoadSceneMode.Additive);
         }
     }
 

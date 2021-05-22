@@ -39,6 +39,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Additive/Error Scene.unity
     guid: 6c8bb750a70c34149a93cf5c44ddad4c
   - enabled: 1
+    path: Assets/Scenes/Additive/Success Scene.unity
+    guid: c31010977d339da46a231fd3e3eb8f5d
+  - enabled: 1
     path: Assets/Scenes/Additive/Question Scene.unity
     guid: 8748653f6ef01dd43a0363787356cdd8
   - enabled: 1

@@ -138,6 +138,7 @@ public class ShopBehaviourScript : MonoBehaviour
         {
             BuyButton.interactable = false;
             BuyButton.GetComponentInChildren<Text>().text = "EN POSESIÓN";
+            BuyButton.GetComponentInChildren<Text>().color = Color.white;
 
             if (UserDataScript.getInfo(objectName).Equals(objectName + index))
             {

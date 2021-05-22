@@ -108,7 +108,10 @@ public class RegisterBehaviourScript : MonoBehaviour
         {
             Debug.Log("EXITO REGISTRO:" + requestRegister.downloadHandler.text);
             //Guardar Token usuario
-            SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+
+            SuccessDataScript.setSuccessText("Registro realizado correctamente!");
+            SuccessDataScript.setReturnScene("Login Scene");
+            SceneManager.LoadScene("Success Scene", LoadSceneMode.Additive);
         }
     }
 }

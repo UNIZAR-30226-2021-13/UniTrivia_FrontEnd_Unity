@@ -77,7 +77,7 @@ public class QuestionBehaviourScript : MonoBehaviour
                 SoundManager.PlayAnswerSound(false);
                 answersNonInteractable();
                 GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
-                StartCoroutine(WaitAndExit(3));
+                StartCoroutine(WaitAndExit(1));
             }
         }
     }
@@ -104,7 +104,7 @@ public class QuestionBehaviourScript : MonoBehaviour
             SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(),"", true, false);
         }
-        StartCoroutine(WaitAndExit(1));
+        StartCoroutine(WaitAndExit(2));
     }
 
     private void AnswerTwoButtonOnClick()
@@ -129,7 +129,7 @@ public class QuestionBehaviourScript : MonoBehaviour
             SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(1));
+        StartCoroutine(WaitAndExit(2));
     }
 
     private void AnswerThreeButtonOnClick()
@@ -155,7 +155,7 @@ public class QuestionBehaviourScript : MonoBehaviour
             SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(1));
+        StartCoroutine(WaitAndExit(2));
     }
 
     private void AnswerFourButtonOnClick()
@@ -180,7 +180,7 @@ public class QuestionBehaviourScript : MonoBehaviour
             SoundManager.PlayAnswerSound(false);
             GameBehaviourScript.SendJugada(QuestionDataScript.getPosition(), "", true, false);
         }
-        StartCoroutine(WaitAndExit(1));
+        StartCoroutine(WaitAndExit(2));
     }
 
     private void activateQuesito(string categoria)

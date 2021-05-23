@@ -50,6 +50,9 @@ public class GameBehaviourScript : MonoBehaviour
     //SALIR
     public Button ExitButton;
 
+    //RECONEXIÓN
+    public GameObject WaitingTurno;
+
     private GameObject[] Players;
     private GameObject[] Tokens;
     private GameObject myPlayer;
@@ -75,7 +78,12 @@ public class GameBehaviourScript : MonoBehaviour
     {
         try
         {
+            if (ExecuteOnMainThread == null)
+            {
+                ExecuteOnMainThread = new Queue<Action>();
+            }
             endgame.SetActive(false);
+            WaitingTurno.SetActive(false);
             ReturnButton.onClick.AddListener(ReturnButtonOnClick);
             ExitButton.onClick.AddListener(ReturnButtonOnClick);
 
@@ -95,6 +103,8 @@ public class GameBehaviourScript : MonoBehaviour
             Tokens = new GameObject[] { Token_Player1, Token_Player2, Token_Player3, Token_Player4, Token_Player5, Token_Player6 };
             if (SocketioHandler.op.Equals("reconexion"))
             {
+
+                WaitingTurno.SetActive(true);
                 startReconnection();
             }
             setConnectionHandlers();
@@ -107,7 +117,7 @@ public class GameBehaviourScript : MonoBehaviour
     }
 
 
-    public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
+    public static Queue<Action> ExecuteOnMainThread = null;
     // Update is called once per frame
     void Update()
     {
@@ -251,7 +261,7 @@ public class GameBehaviourScript : MonoBehaviour
             string avatar = "avatar0", banner = "banner0", ficha = "ficha0";
 
             Debug.Log(jugadorJO);
-            if (jugadorJO.Property("imgs").Value != null)
+            if (jugadorJO.Property("imgs").Value.Type != JTokenType.Null)
             {
                 JObject images = (JObject)jugadorJO.Property("imgs").Value;
 
@@ -276,7 +286,7 @@ public class GameBehaviourScript : MonoBehaviour
             PlayersDataScript.Jugador jugador = new PlayersDataScript.Jugador(nombre, banner, avatar, ficha, posicion, quesitos.ToArray());
             PlayersDataScript.nuevoJugador(jugador);
         }
-
+        PlayersDataScript.turno = "";
         setPlayersAtStart();
         yield return null;
     }
@@ -362,6 +372,7 @@ public class GameBehaviourScript : MonoBehaviour
     // Gestión del evento de turno del socket
     IEnumerator turno(string jugador)
     {
+        WaitingTurno.SetActive(false);
         //Need debug
         checkColorPlayername(Player1, jugador, "turno");
         checkColorPlayername(Player2, jugador, "turno");
@@ -613,7 +624,7 @@ public class GameBehaviourScript : MonoBehaviour
     void ReturnButtonOnClick()
     {
         //SceneManager.UnloadSceneAsync("Profile Scene");
-        SocketioHandler.End()
+        SocketioHandler.End();
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
     }
 

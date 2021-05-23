@@ -19,7 +19,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     private int jugadores = 0;
     private bool cargando = false;
 
-    public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
+    public static Queue<Action> ExecuteOnMainThread = null;
 
     // Update is called once per frame
     void Update()
@@ -46,6 +46,11 @@ public class LobbyBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start(){
 
+        if(ExecuteOnMainThread == null)
+        {
+            ExecuteOnMainThread = new Queue<Action>();
+        }
+        
         setLider(false);
         PlayersDataScript.turno = "";
 

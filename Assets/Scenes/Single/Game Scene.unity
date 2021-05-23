@@ -14658,7 +14658,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1989652361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15213,6 +15213,7 @@ MonoBehaviour:
   winner: {fileID: 646132206}
   ReturnButton: {fileID: 1480023556}
   ExitButton: {fileID: 178906348}
+  WaitingTurno: {fileID: 1989652360}
 --- !u!114 &2028435234
 MonoBehaviour:
   m_ObjectHideFlags: 0

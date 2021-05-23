@@ -82,9 +82,12 @@ public class LobbyBehaviourScript : MonoBehaviour
         }
 
         SocketioHandler.Start(() => {
-            SocketioHandler.socket.Emit("obtenerIdSala", (id) => {
-                LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(setIdSala((string)id)));
-            });
+            if (SocketioHandler.op.Equals("crearSala"))
+            {
+                SocketioHandler.socket.Emit("obtenerIdSala", (id) => {
+                    LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(setIdSala((string)id)));
+                });
+            }
         }, ()=> {
             if (LobbyBehaviourScript.ExecuteOnMainThread != null)
             {
@@ -187,6 +190,10 @@ public class LobbyBehaviourScript : MonoBehaviour
             JObject usuario = (JObject)j;
             setUsuario(usuario, "usuario");
         }
+
+        SocketioHandler.socket.Emit("obtenerIdSala", (id) => {
+            LobbyBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(setIdSala((string)id)));
+        });
         yield return null;
 
     }

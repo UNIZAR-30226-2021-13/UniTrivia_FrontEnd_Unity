@@ -61,8 +61,8 @@ public class MenuBehaviourScript : MonoBehaviour
         {
             Resources.Load<Sprite>("Avatar/" + PlayerPrefs.GetString("avatar"));
             LoginButton.gameObject.SetActive(false);
-            StartCoroutine(checkUserReconnection());
         }
+        StartCoroutine(checkUserReconnection());
 
         IdentificadorInput.onValueChanged.AddListener((id)=> { 
             InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;

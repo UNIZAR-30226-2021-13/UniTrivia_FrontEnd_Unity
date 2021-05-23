@@ -52,7 +52,7 @@ public static class SocketioHandler {
                 socket.On(entry.Key, entry.Value);
             }
 
-            socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason); PlayersDataScript.eliminarPartida();  fnEnd(); });
+            socket.On(QSocket.EVENT_DISCONNECT, (reason) => { Debug.Log("Disconnected: " + reason + " \n" + Environment.StackTrace); PlayersDataScript.eliminarPartida();  fnEnd();  });
             socket.On(QSocket.EVENT_RECONNECT, () => { Debug.Log("Reconnected"); });
             socket.On(QSocket.EVENT_CONNECT, () => { Debug.Log("Connected"); fnConexion(); });
         }catch (Exception e) { 

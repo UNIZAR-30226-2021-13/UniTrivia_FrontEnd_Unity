@@ -248,15 +248,21 @@ public class GameBehaviourScript : MonoBehaviour
             long posLong = (long)tmp.Value;
             int posicion = unchecked((int)posLong);
 
-            JObject images = (JObject)jugadorJO.Property("imgs").Value;
+            string avatar = "avatar0", banner = "banner0", ficha = "ficha0";
+
+            Debug.Log(jugadorJO);
+            if (jugadorJO.Property("imgs").Value != null)
+            {
+                JObject images = (JObject)jugadorJO.Property("imgs").Value;
 
 
-            tmp = (JValue)images.Property("avatar").Value;
-            string avatar = (string)tmp.Value;
-            tmp = (JValue)images.Property("banner").Value;
-            string banner = (string)tmp.Value;
-            tmp = (JValue)images.Property("ficha").Value;
-            string ficha = (string)tmp.Value;
+                tmp = (JValue)images.Property("avatar").Value;
+                avatar = (string)tmp.Value;
+                tmp = (JValue)images.Property("banner").Value;
+                banner = (string)tmp.Value;
+                tmp = (JValue)images.Property("ficha").Value;
+                ficha = (string)tmp.Value;
+            }
 
             JArray quesitosJA = (JArray)jugadorJO.Property("quesitos").Value;
             List<string> quesitos = new List<string> { };
@@ -334,15 +340,6 @@ public class GameBehaviourScript : MonoBehaviour
     {
         JValue tmp = (JValue)data.Property("jugador").Value;
         string user = (string)tmp.Value;
-
-        JObject images = (JObject)data.Property("imgs").Value;
-
-        tmp = (JValue)images.Property("avatar").Value;
-        string avatar = (string)tmp.Value;
-        tmp = (JValue)images.Property("banner").Value;
-        string banner = (string)tmp.Value;
-        tmp = (JValue)images.Property("ficha").Value;
-        string ficha = (string)tmp.Value;
 
         checkColorPlayername(Player1, user, "reconexion");
         checkColorPlayername(Player2, user, "reconexion");
@@ -616,6 +613,7 @@ public class GameBehaviourScript : MonoBehaviour
     void ReturnButtonOnClick()
     {
         //SceneManager.UnloadSceneAsync("Profile Scene");
+        SocketioHandler.End()
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
     }
 

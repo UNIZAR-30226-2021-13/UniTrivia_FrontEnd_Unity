@@ -49,12 +49,6 @@ public class LobbyBehaviourScript : MonoBehaviour
         setLider(false);
         PlayersDataScript.turno = "";
 
-        if (SocketioHandler.op.Equals("crearSala"))
-        {
-            StartCoroutine(setPropio());
-            setLider(true);
-        }
-
         Dictionary<string, Action<object>> handlers = new Dictionary<string, Action<object>>();
         handlers.Add("nuevoJugador", (user) =>
         {
@@ -80,6 +74,12 @@ public class LobbyBehaviourScript : MonoBehaviour
         });
 
         handlers.Add("turno", (usuario) => { PlayersDataScript.turno = (string)usuario; });
+
+        if(SocketioHandler.op.Equals("crearSala"))
+        {
+            StartCoroutine(setPropio());
+            setLider(true);
+        }
 
         SocketioHandler.Start(() => {
             SocketioHandler.socket.Emit("obtenerIdSala", (id) => {

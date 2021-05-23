@@ -43,8 +43,6 @@ public class LobbyBehaviourScript : MonoBehaviour
         SocketioHandler.End();
     }
 
-
-
     // Start is called before the first frame update
     void Start(){
 

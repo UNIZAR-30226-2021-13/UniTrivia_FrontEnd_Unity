@@ -78,7 +78,7 @@ public class MenuBehaviourScript : MonoBehaviour
 
     private IEnumerator checkUserReconnection()
     {
-        UnityWebRequest requestPartida = UnityWebRequest.Get("http://unitrivia.herokuapp.com/api/partida/reconexion");
+        UnityWebRequest requestPartida = UnityWebRequest.Get("https://unitrivia.herokuapp.com/api/partida/reconexion");
         requestPartida.SetRequestHeader("jwt", UserDataScript.getInfo("token"));
         yield return requestPartida.SendWebRequest();
 

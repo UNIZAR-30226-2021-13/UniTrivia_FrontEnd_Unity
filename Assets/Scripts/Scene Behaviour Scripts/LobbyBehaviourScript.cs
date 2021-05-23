@@ -17,6 +17,7 @@ public class LobbyBehaviourScript : MonoBehaviour
     public GameObject LoadingSprite;
 
     private int jugadores = 0;
+    private bool cargando = false;
 
     public readonly static Queue<Action> ExecuteOnMainThread = new Queue<Action>();
 
@@ -27,7 +28,7 @@ public class LobbyBehaviourScript : MonoBehaviour
         {
             ExecuteOnMainThread.Dequeue().Invoke();
         }
-        if(jugadores >= 2)
+        if(jugadores >= 2 && !cargando)
         {
             StartButton.interactable = true;
         }
@@ -172,8 +173,10 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     IEnumerator nuevoUsuario(JObject usuario)
     {
+        cargando = true;
         setUsuario(usuario, "jugador");
-        yield return null;
+        yield return new WaitForSeconds(3);
+        cargando = false;
     }
 
     IEnumerator cargarJugadores(JObject data)
@@ -234,7 +237,6 @@ public class LobbyBehaviourScript : MonoBehaviour
         {
             if(lider)
             {
-                StartCoroutine(Wait(2));
                 StartButton.gameObject.SetActive(true);
             } else
             {
@@ -281,11 +283,5 @@ public class LobbyBehaviourScript : MonoBehaviour
             ErrorDataScript.setButtonMode(1);
             SceneManager.LoadScene("Error Scene", LoadSceneMode.Additive);
         }
-    }
-
-    IEnumerator Wait(int time)
-    {
-        //yield on a new YieldInstruction that waits for 5 seconds.
-        yield return new WaitForSeconds(time);
     }
 }

@@ -534,7 +534,7 @@ public class GameBehaviourScript : MonoBehaviour
     //Cuando se pulsa el botón para enviar un mensaje
     void SendMsg()
     {
-        chatLog.text = chatLog.text + UserDataScript.getInfo("username") + ": " + msg.text + "\n";
+        chatLog.text = UserDataScript.getInfo("username") + ": " + msg.text + "\n" + chatLog.text;
         SocketioHandler.socket.Emit("mensaje",msg.text);
         msg.text = "";
     }
@@ -549,7 +549,7 @@ public class GameBehaviourScript : MonoBehaviour
         string user = (string)userJV.Value;
         string msg = (string)msgJV.Value;
 
-        chatLog.text = chatLog.text + user + ":  " + msg + "\n";
+        chatLog.text = user + ":  " + msg + "\n" + chatLog.text;
         aviso.enabled = !ChatPannel.enabled;
         SoundManager.PlayChatSound();
 
@@ -558,7 +558,7 @@ public class GameBehaviourScript : MonoBehaviour
 
     void LocalMsg(string msg)
     {
-        chatLog.text = chatLog.text + "..." + msg + "..." + "\n";
+        chatLog.text = "..." + msg + "..." + "\n" + chatLog.text;
     }
 
     ///////////////////////////////////////////////////////////////////////////////

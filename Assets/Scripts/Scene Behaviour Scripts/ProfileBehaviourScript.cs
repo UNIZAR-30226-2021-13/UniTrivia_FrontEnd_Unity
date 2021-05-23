@@ -184,11 +184,11 @@ public class ProfileBehaviourScript : MonoBehaviour
 
         requestDeleteProfile.SetRequestHeader("jwt", token);
         yield return requestDeleteProfile.SendWebRequest();
-        Debug.Log("ResponseCode: " + requestDeleteProfile.responseCode);
+        //Debug.Log("ResponseCode: " + requestDeleteProfile.responseCode);
 
         if (requestDeleteProfile.result == UnityWebRequest.Result.ConnectionError)
         {
-            Debug.Log("ERROR CONNECTION:" + requestDeleteProfile.result);
+            //Debug.Log("ERROR CONNECTION:" + requestDeleteProfile.result);
 
             ErrorDataScript.setErrorText("Error de conexión");
             ErrorDataScript.setButtonMode(1);
@@ -196,7 +196,7 @@ public class ProfileBehaviourScript : MonoBehaviour
         }
         else if (requestDeleteProfile.responseCode != 200)
         {
-            Debug.Log("ERROR DELETE:" + requestDeleteProfile.downloadHandler.text);
+            //Debug.Log("ERROR DELETE:" + requestDeleteProfile.downloadHandler.text);
             ServerReturn result = ServerReturn.CreateFromJSON(requestDeleteProfile.downloadHandler.text);
 
             ErrorDataScript.setErrorText(result.message);
@@ -205,8 +205,11 @@ public class ProfileBehaviourScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("EXITO DELETE:" + requestDeleteProfile.downloadHandler.text);
-            SceneManager.LoadScene("Login Scene", LoadSceneMode.Single);
+            //Debug.Log("EXITO DELETE:" + requestDeleteProfile.downloadHandler.text);
+
+            SuccessDataScript.setSuccessText("Usuario eliminado correctamente!");
+            SuccessDataScript.setReturnScene("Login Scene");
+            SceneManager.LoadScene("Success Scene", LoadSceneMode.Additive);
         }
     }
 

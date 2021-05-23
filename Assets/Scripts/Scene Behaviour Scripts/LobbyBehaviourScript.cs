@@ -12,7 +12,6 @@ public class LobbyBehaviourScript : MonoBehaviour
 
     public VerticalLayoutGroup Usuarios;
 
-    public Text WaitingLeader;
     public Button StartButton;
     public Button CancelButton;
     public GameObject LoadingSprite;
@@ -109,9 +108,6 @@ public class LobbyBehaviourScript : MonoBehaviour
         string nuevoString = (string)nuevo.Value;
         JValue antiguo = (JValue)data.Property("antiguo").Value;
         string antiguoString = (string)antiguo.Value;
-
-        Debug.Log(nuevo);
-        Debug.Log(antiguo);
         
         if (nuevoString.Equals(UserDataScript.getInfo("username")))
         {
@@ -129,15 +125,12 @@ public class LobbyBehaviourScript : MonoBehaviour
         GameObject child = Usuarios.transform.Find(nombre).gameObject;
         Destroy(child);
         
-
         yield return null;
     }
 
     void setUsuario(JObject usuario, string fieldName)
     {
-        Debug.Log("===nuevoUsuario===");
-        Debug.Log(usuario);
-        Debug.Log("==================");
+        Debug.Log("Nuevo Usuario: " + usuario);
         JValue tmp = (JValue)usuario.Property(fieldName).Value;
         string nombre = (string)tmp.Value;
 
@@ -190,7 +183,6 @@ public class LobbyBehaviourScript : MonoBehaviour
         setLider(jugadores.Count <= 1);
         foreach (JToken j in jugadores)
         {
-            Debug.Log("gg");
             JObject usuario = (JObject)j;
             setUsuario(usuario, "usuario");
         }
@@ -240,8 +232,15 @@ public class LobbyBehaviourScript : MonoBehaviour
     {
         try
         {
-            WaitingLeader.gameObject.SetActive(!lider);
-            StartButton.gameObject.SetActive(lider);
+            if(lider)
+            {
+                StartCoroutine(Wait(2));
+                StartButton.gameObject.SetActive(true);
+            } else
+            {
+                StartButton.gameObject.SetActive(false);
+            }
+            
         }
         catch (Exception e)
         {
@@ -284,4 +283,9 @@ public class LobbyBehaviourScript : MonoBehaviour
         }
     }
 
+    IEnumerator Wait(int time)
+    {
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(time);
+    }
 }

@@ -161,8 +161,6 @@ public class GameBehaviourScript : MonoBehaviour
     //Mover ficha a posición
     private void setTokenInPosition(GameObject token, int position)
     {
-        //¿TODO ANIMATION y MULTIPOSICION?
-        //Debug.Log("BoardButton (" + position + ")");
         Transform c = BoardButtons.transform;
         Transform a = c.Find("BoardButton (" + position + ")");
         Transform b = token.transform;
@@ -186,7 +184,6 @@ public class GameBehaviourScript : MonoBehaviour
         {
             // A quién le toca jugar
             // data = (string)
-            //Debug.Log("turno " + data);
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(turno((string)data)));
         });
         SocketioHandler.AddHandler("jugada", (data) =>
@@ -213,7 +210,6 @@ public class GameBehaviourScript : MonoBehaviour
             //      msg: (string)
             // }
 
-            //Debug.Log("Se lanza el evento de chat");
             GameBehaviourScript.ExecuteOnMainThread.Enqueue(() => StartCoroutine(chat((JObject)data)));
         });
         SocketioHandler.AddHandler("jugadorSale", (data) =>
@@ -249,7 +245,6 @@ public class GameBehaviourScript : MonoBehaviour
             string nombre = (string)tmp.Value;
 
             tmp = (JValue)jugadorJO.Property("casilla").Value;
-            //Debug.Log(tmp.Value.GetType());
             long posLong = (long)tmp.Value;
             int posicion = unchecked((int)posLong);
 
@@ -268,7 +263,6 @@ public class GameBehaviourScript : MonoBehaviour
             foreach(JToken q in quesitosJA)
             {
                 string queso = (string)((JValue)q).Value;
-                //Debug.Log(queso);
                 quesitos.Add(queso);
             }
 
@@ -283,8 +277,7 @@ public class GameBehaviourScript : MonoBehaviour
 
     IEnumerator jugada(JObject data)
     {
-        Debug.Log("JUGADA");
-        Debug.Log(data);
+        Debug.Log("JUGADA: " + data);
         JValue userJV = (JValue)data.Property("user").Value;
         JValue casillaJV = (JValue)data.Property("casilla").Value;
         JValue quesJV = (JValue)data.Property("ques").Value;
@@ -385,11 +378,9 @@ public class GameBehaviourScript : MonoBehaviour
         {
             try
             {
-                //Debug.Log("Enters here - turno");
                 DiceGO.SetActive(true);
                 Dice.interactable = true;
                 DiceAnimation.Play(); //Lanzar animación
-                //Debug.Log("Exits - turno");
             }
             catch (Exception e)
             {
@@ -403,7 +394,6 @@ public class GameBehaviourScript : MonoBehaviour
     // Función de pulsar el dado
     void useDice()
     {
-        //Debug.Log("Enters here - useDice");
         Dice.interactable = false;
         diceNumber = UnityEngine.Random.Range(1, 7);    //(minInclusive..maxExclusive)
         SoundManager.PlayDiceSound();
@@ -437,10 +427,7 @@ public class GameBehaviourScript : MonoBehaviour
                 //      }
                 //  }
                 JObject tmp = (JObject)j;
-                Debug.Log(tmp);
                 JObject casillaJO = (JObject)tmp.Property("casilla").Value;
-                
-                //Debug.Log(preguntaJO);
 
                 int casilla = (int)casillaJO.Property("num").Value;
                 string tipo = (string)casillaJO.Property("tipo").Value;
@@ -476,6 +463,7 @@ public class GameBehaviourScript : MonoBehaviour
                         hideBoardButtons();
                         setTokenInPosition(myToken, casilla);
                         newQuestion(tipo.Equals("Quesito"), categoria, question, resp_c, resp_inc, casilla);
+                        Debug.Log("Pregunta: " + question + "| Respuesta = " + resp_c);
                         foreach (Button b in BoardButtons.GetComponentsInChildren<Button>(true))
                         {
                             b.onClick.RemoveAllListeners();
@@ -521,7 +509,6 @@ public class GameBehaviourScript : MonoBehaviour
 
         QuestionDataScript.setQuestion(question, incorrects, idCorrect, quesito, category, position, () => StartCoroutine(turno((UserDataScript.getInfo("username")))));
 
-        Debug.Log("...ABRO ESCENA QUESTION...");
         SceneManager.LoadScene("Question Scene", LoadSceneMode.Additive);
     }
 
@@ -601,7 +588,6 @@ public class GameBehaviourScript : MonoBehaviour
         switch (func)
         {
             case "turno":
-                //Debug.Log("COLOR.TURNO: " + playername.text + jugador);
                 if(playername.text == jugador)
                 {
                     playername.color = Color.green;
@@ -611,7 +597,6 @@ public class GameBehaviourScript : MonoBehaviour
                 }
                 break;
             case "desconexion":
-                //Debug.Log("COLOR.DESCNXN: " + playername.text + jugador);
                 if (playername.text == jugador)
                 {
                     playername.color = Color.gray;
@@ -632,6 +617,12 @@ public class GameBehaviourScript : MonoBehaviour
     {
         //SceneManager.UnloadSceneAsync("Profile Scene");
         SceneManager.LoadScene("Menu Scene", LoadSceneMode.Single);
+    }
+
+    IEnumerator Wait(int time)
+    {
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(time);
     }
 }
 

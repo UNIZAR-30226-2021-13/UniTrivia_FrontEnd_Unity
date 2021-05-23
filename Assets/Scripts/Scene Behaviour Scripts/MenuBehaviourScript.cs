@@ -29,8 +29,14 @@ public class MenuBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Desactivamos botones hasta gestionar la reconexión si hay
         JoinGameCanvas.enabled = false;
+        ReconnectButton.gameObject.SetActive(false);
+        RandomGameButton.gameObject.SetActive(false);
+        JoinGameButton.gameObject.SetActive(false);
+        CreateGameButton.gameObject.SetActive(false);
 
+        //Add Listeners
         RandomGameButton.onClick.AddListener(RandomGameOnClick);
         JoinGameButton.onClick.AddListener(JoinGameOnClick);
         CreateGameButton.onClick.AddListener(CreateGameOnClick);
@@ -43,26 +49,27 @@ public class MenuBehaviourScript : MonoBehaviour
         LoginButton.onClick.AddListener(LoginButtonOnClick);
         OptionsButton.onClick.AddListener(OptionsButtonOnClick);
 
-        ReconnectButton.gameObject.SetActive(false);
-
-        IdentificadorInput.onValueChanged.AddListener((id)=> { 
-            InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
-        });
-
-        
+        //UserInfo
         Username.text = UserDataScript.getInfo("username");
 
         if (UserDataScript.getInfo("username").StartsWith("Guest_"))
         {
             Resources.Load<Sprite>("Avatar/avatar0");
             ProfileButton.gameObject.SetActive(false);
-        } else
+        }
+        else
         {
             Resources.Load<Sprite>("Avatar/" + PlayerPrefs.GetString("avatar"));
             LoginButton.gameObject.SetActive(false);
             StartCoroutine(checkUserReconnection());
         }
+
+        IdentificadorInput.onValueChanged.AddListener((id)=> { 
+            InputIDButton.interactable = !string.IsNullOrEmpty(id) && id.Length == 5;
+        });
+ 
     }
+
     void Update()
     {
         UserAvatar.sprite = Resources.Load<Sprite>("Avatar/" + UserDataScript.getInfo("avatar"));
